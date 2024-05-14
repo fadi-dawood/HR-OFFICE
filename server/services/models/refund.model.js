@@ -1,0 +1,50 @@
+import { model, Schema } from "mongoose";
+
+const refundSchema = new Schema(
+    {
+        type: {
+            type: String,
+            require: true,
+            enum: ["Trasport", "Hotel", "Dinner", "Lunch", "Car rent", "KM", "Taxi", "Other"]
+        },
+        expense_date: {
+            type: Date,
+            require: true
+        },
+        state: {
+            type: String,
+            require: true,
+            enum: ["Approved", "requested", "Cancelled", "Not approved"]
+        },
+        employee: {
+            type: Schema.Types.ObjectId,
+            ref: "Employee",
+            required: true
+        },
+        kilometers: {
+            type: Number,
+            require: () => {
+                return this.type === "KM" ? true : false;
+            }
+        } ,
+        payment_type:{
+            type: String,
+            require: true,
+            enum: ["Cash", "Electronic"]
+        },
+        receipt:{
+            type: String,
+            require: true, 
+        },
+        note: {
+            type: String,
+            require: false,
+        }
+    },
+    {
+        timestamps: true 
+    }
+);
+
+
+export default model("Refund", refundSchema);
