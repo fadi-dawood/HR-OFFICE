@@ -1,7 +1,11 @@
 colors:
     #EEEEEE
     #76ABAE
-    #31363F
+    #81848a
     #222831
+    #FFFFFF
 
-
+fonts:
+- playfair
+- poetsen
+- Roboto

@@ -1,0 +1,16 @@
+.login-page {
+    height: 100vh;
+}
+
+.login-page div:first-of-type img {
+    height: 200px;
+}
+
+/* separate line */
+@media (min-width: 768px) {
+    .login-page > div > div > div:first-of-type {
+        border-right: 1px solid white;
+        padding-right: 10px;
+    }
+}
+

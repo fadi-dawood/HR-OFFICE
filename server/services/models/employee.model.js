@@ -105,7 +105,6 @@ const contractInfoSchema = new Schema({
     contract_type: {
         type: String,
         require: true,
-
     },
     contract_expiry: {
         type: Date,

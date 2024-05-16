@@ -1,0 +1,15 @@
+footer img.logo {
+    height: 75px;
+}
+
+footer {
+    border-top: 1px solid #222831;
+}
+
+footer>div>.row a {
+    text-decoration: none;
+    color: white;
+    
+}
+
+
