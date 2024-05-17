@@ -2,6 +2,9 @@ import express from "express";
 import { config } from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
+import { authMiddleware } from "./services/middleware/authMiddleware.js";
+import userRoute from "./services/routes/user.route.js";
+import signRoute from "./services/routes/sign.route.js";
 
 // caricare le variabili da .env
 config();
@@ -21,7 +24,9 @@ app.use(cors({
 app.use(express.json());
 
 // Importa routes:
-
+//app.use("/user", authMiddleware, userRoute)
+app.use("/user", userRoute)
+app.use("/", signRoute)
 
 
 // Funzione per inizializzare il server
