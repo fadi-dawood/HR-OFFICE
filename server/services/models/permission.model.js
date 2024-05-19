@@ -4,36 +4,42 @@ const permissionSchema = new Schema(
     {
         type: {
             type: String,
-            require: true,
-            enum: ["Day off", "Permission", "Sikness", "Maternity", "Widding", "Son's sikness"]
+            required: true,
+            enum: ["Day Off", "Permission", "Sickness", "Maternity", "Wedding", "Child's Sickness"]
         },
-        duration: {
-            start: {
-                type: Date,
-                require: true
-            },
-            End: {
-                type: Date,
-                require: true
-            }
+        startDate: {
+            type: Date,
+            required: true
+        },
+        endDate: {
+            type: Date,
+            required: true
+        },
+        startHour: {
+            type: String,
+            required: true
+        },
+        endHour: {
+            type: String,
+            required: true
         },
         note: {
             type: String,
-            require: false,
+            required: false
         },
-        state: {
+        status: {
             type: String,
-            require: true,
-            enum: ["Approved", "requested", "Cancelled", "Not approved"]
+            required: true,
+            enum: ["Approved", "Requested", "Cancelled", "Not Approved"]
         },
-        employee: {
+        employeeId: {
             type: Schema.Types.ObjectId,
             ref: "Employee",
             required: true
         }
     },
     {
-        timestamps: true 
+        timestamps: true
     }
 );
 

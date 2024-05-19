@@ -1,5 +1,6 @@
 import { Router } from "express";
 import Employee from "../models/employee.model.js";
+import Permission from "../models/permission.model.js";
 import bcrypt from "bcryptjs";
 import { verifyJWT } from "../middleware/authMiddleware.js";
 import { setPasswordMail } from "../mail/setPassword.mail.js";
@@ -92,5 +93,42 @@ userRoute.post("/newemployee", async (req, res, next) => {
         next();
     }
 });
+
+
+// New Permission request
+userRoute.post("/newpermission", async (req, res, next) => {
+    try {
+        const employeeId = req.user.id;
+        
+        const { type, startDate, endDate, startHour, endHour, note } = req.body;
+        
+        console.log(req.body);
+        if (!type || !startDate || !endDate || !startHour || !endHour) {
+            return res.status(400).json({ message: "All fields except note are required." });
+        }
+
+        const newPermission = new Permission({
+            type,
+            startDate,
+            endDate,
+            startHour,
+            endHour,
+            note,
+            status: "Requested",
+            employeeId
+        });
+        await newPermission.save();
+
+        res.status(201).json({ message: "Permission request created successfully.", permission: newPermission });
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+});
+
+
+
+
+
 
 export default userRoute;
