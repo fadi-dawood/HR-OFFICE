@@ -1,0 +1,7 @@
+.user-info-item {
+    border: rgb(80, 80, 80) 2px solid;
+    padding: 5px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}

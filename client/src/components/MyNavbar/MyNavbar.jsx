@@ -4,8 +4,15 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import "./MyNavbar.css"
 import logoImg from "../../assets/logo/png/logo-no-background.png"
+import { useContext, useEffect } from 'react';
+import { UserDataContext } from '../../context/UserDataContextProvider.jsx';
 
 export default function MyNavbar() {
+    const { loggedUserName, loggedUserLastname } = useContext(UserDataContext);
+
+    useEffect(() => {
+    }, [loggedUserName, loggedUserLastname]);
+
     return (
         <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary" bg="dark" data-bs-theme="dark">
             <Container >
@@ -32,17 +39,15 @@ export default function MyNavbar() {
                         </NavDropdown>
                     </Nav>
                     <Nav>
-                        <NavDropdown title="login/name" id="basic-nav-dropdown">
+                        <NavDropdown title={`${loggedUserName} ${loggedUserLastname}`} id="basic-nav-dropdown">
                             <NavDropdown.Item href="#action/3.1">Profile</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.1">Log-in</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.1">Register</NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item href="#action/3.4">Log-out</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
                 </Navbar.Collapse>
             </Container>
-            
+
         </Navbar>
     );
 };

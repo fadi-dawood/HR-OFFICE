@@ -24,9 +24,8 @@ app.use(cors({
 app.use(express.json());
 
 // Importa routes:
-//app.use("/user", authMiddleware, userRoute)
-app.use("/user", userRoute)
-app.use("/", signRoute)
+app.use("/user", authMiddleware, userRoute);
+app.use("/sign", signRoute);
 
 
 // Funzione per inizializzare il server

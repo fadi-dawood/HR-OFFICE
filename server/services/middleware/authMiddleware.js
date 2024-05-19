@@ -8,7 +8,7 @@ export const generateJWT = (payload) => {
         jwt.sign(
             payload,
             process.env.JWT_SECRET,
-            { expiresIn: "3d" },
+            { expiresIn: "30d" },
             (err, token) => {
                 if (err) {
                     reject(err);

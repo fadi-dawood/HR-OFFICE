@@ -11,32 +11,33 @@ import MyFooter from './components/MyFooter/MyFooter';
 // import views
 import LoginPage from './views/LoginPage/LoginPage';
 import NewEmployee from './views/NewEmployee/NewEmployee';
-
+import SetPassword from './views/SetPassword/SetPassword';
+import UserDataContextProvider from './context/UserDataContextProvider.jsx';
+import AuthContextProvider from './context/AuthContextProvider.jsx';
+import ProtectedAuthRoute from './components/ProtectedAuthRoute/ProtectedAuthRoute.jsx';
+import Home from './views/Home/Home.jsx';
+import Profile from './views/Profile/Profile.jsx';
 
 function App() {
   return (
     <Router>
       <div className="App">
-        <Routes>
-          {/* Routes without navbar and footer */}
-          <Route path="/login" element={<LoginPage />} />
+        <AuthContextProvider>
+          <UserDataContextProvider>
+            <Routes>
+              {/* Routes without navbar and footer */}
+              <Route path="/" element={<LoginPage />} />
+              <Route path="/setpassword/:token" element={<SetPassword />} />
 
-          {/* Routes with navbar and footer */}
-          <Route
-            path="/*"
-            element={
-              <>
-                <MyNavbar />
-                <Routes>
-                  {/* Aggiungi altre rotte qui */}
-                  <Route path="/newEmployee" element={<NewEmployee />} />
-                  
-                </Routes>
-                <MyFooter />
-              </>
-            }
-          />
-        </Routes>
+              <Route element={<ProtectedAuthRoute />}>
+                <Route path="/newEmployee" element={<NewEmployee />} />
+                <Route path="/home" element={<Home />} />
+                <Route path="/profile" element={<Profile />} />
+              </Route>
+
+            </Routes>
+          </UserDataContextProvider>
+        </AuthContextProvider>
       </div>
     </Router>
 

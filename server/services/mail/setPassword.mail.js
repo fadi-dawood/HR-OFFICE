@@ -4,7 +4,7 @@ import { generateJWT } from "../middleware/authMiddleware.js";
 
 
 export const setPasswordMail = async (employee) => {
-    console.log(employee._id )
+
     const transporter = nodemailer.createTransport({
         host: process.env.MAILER_HOST,
         port: process.env.MAILER_PORT,
@@ -22,7 +22,7 @@ export const setPasswordMail = async (employee) => {
         const token = await generateJWT({ id: employee._id });
 
         // Create the link to set the password
-        const setPasswordUrl = `${process.env.URL_FRONT}/setpassword?token=${token}`;
+        const setPasswordUrl = `${process.env.URL_FRONT}/sign/setpassword/${token}`;
 
         // create the messegge mail
         const mailOptions = {
