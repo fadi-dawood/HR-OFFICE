@@ -14,7 +14,7 @@ export default function
         <div className='home-page bg-dark py-5'>
             <Container fluid="sm">
                 <h2 className='mb-5'>{`Welcome back ${localStorage.getItem("loggedUserName")} ${localStorage.getItem("loggedUserLastname")}`}</h2>
-                <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+                <Tab.Container id="left-tabs-example" defaultActiveKey="second">
                     <Row>
                         <Col sm={3}>
                             <Nav variant="pills" className="flex-column">

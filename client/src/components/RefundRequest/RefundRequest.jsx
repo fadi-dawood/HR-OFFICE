@@ -3,6 +3,8 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
+import Alert from 'react-bootstrap/Alert';
+import InputGroup from 'react-bootstrap/InputGroup';
 
 export default function RefundRequest() {
     //^ form validation
@@ -16,11 +18,19 @@ export default function RefundRequest() {
         setValidated(true);
     };
 
-
+    //^ Variables
     const [requestType, setRequestType] = useState('');
+    const [expenseDate, setExpenseDate] = useState("");
+    const [paymentType, setPaymentType] = useState("");
+    const [KmNumber, setKmNumber] = useState("");
+    const [refundAmount, setRefundAmount] = useState("");
+    const [note, setNote] = useState("");
+    const [alertMsg, setAlertMsg] = useState("");
+    const token = localStorage.getItem("token");
+
+
+    //^ When the note input is required!?
     const [notesRequired, setNotesRequired] = useState(false);
-
-
     const handleRequestTypeChange = (event) => {
         const selectedType = event.target.value;
         setRequestType(selectedType);
@@ -30,6 +40,46 @@ export default function RefundRequest() {
             setNotesRequired(false);
         }
     };
+
+    //^ Request Leave - call function
+    async function askRufund() {
+        const payload = {
+            type: requestType,
+            expense_date: expenseDate,
+            kilometers: KmNumber,
+            amount: refundAmount,
+            payment_type: paymentType,
+            note: note
+        }
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/user/newrefund`, {
+                method: "POST",
+                headers: {
+                    "Authorization": token,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+            if (response.ok) {
+                setRequestType("");
+                setExpenseDate("");
+                setPaymentType("");
+                setKmNumber("");
+                setNote("");
+                setRefundAmount("");
+                setAlertMsg("");
+            } else {
+                setAlertMsg("Somthing went wrong, please try later!");
+                setTimeout(() => { setAlertMsg(""); }, 5000)
+            }
+        } catch (err) {
+            console.error(err);
+        };
+
+    }
+
+
+
 
     return (
         <div>
@@ -61,6 +111,8 @@ export default function RefundRequest() {
                     <Form.Group as={Col} md="4">
                         <Form.Label>Expense date</Form.Label>
                         <Form.Control
+                            onChange={(e) => { setExpenseDate(e.target.value) }}
+                            value={expenseDate}
                             data-bs-theme="dark"
                             required
                             type="date"
@@ -72,6 +124,8 @@ export default function RefundRequest() {
                     <Form.Group as={Col} md="4" controlId="validationCustom02">
                         <Form.Label>Payment type</Form.Label>
                         <Form.Select
+                            onChange={(e) => { setPaymentType(e.target.value) }}
+                            value={paymentType}
                             required
                             type="text"
                             data-bs-theme="dark"
@@ -84,14 +138,35 @@ export default function RefundRequest() {
                             Please choose a Payment type.
                         </Form.Control.Feedback>
                     </Form.Group>
+                </Row>
+                <Row className="mb-3">
+                    <Form.Group as={Col} md="4">
+                        <Form.Label>Amount refunded</Form.Label>
+                        <InputGroup>
+                            <Form.Control
+                                onChange={(e) => { setRefundAmount(e.target.value) }}
+                                value={refundAmount}
+                                data-bs-theme="dark"
+                                required
+                                type="number"
+                                min={1}
+                                placeholder='Please enter the refund amount'
+                            />
+                            <span data-bs-theme="dark" className="input-group-text">€</span>
+                        </InputGroup>
+                        <Form.Control.Feedback type="invalid">
+                            Please choose a valid Amount.
+                        </Form.Control.Feedback>
+                    </Form.Group>
                     {requestType === 'KM' && (
                         <Form.Group as={Col} md="4" controlId="validationCustom03">
                             <Form.Label>How many KM</Form.Label>
                             <Form.Control
+                                onChange={(e) => { setKmNumber(e.target.value) }}
+                                value={KmNumber}
                                 data-bs-theme="dark"
                                 required
                                 type="number"
-                                max={8}
                                 min={1}
                                 placeholder="Enter KM"
                             />
@@ -105,6 +180,8 @@ export default function RefundRequest() {
                     <Form.Group as={Col} md="12">
                         <Form.Label>Notes</Form.Label>
                         <Form.Control
+                            onChange={(e) => { setNote(e.target.value) }}
+                            value={note}
                             data-bs-theme="dark"
                             required={notesRequired}
                             type="text"
@@ -115,7 +192,8 @@ export default function RefundRequest() {
                         </Form.Control.Feedback>
                     </Form.Group>
                 </Row>
-                <Button className="my-5" type="submit">Send request</Button>
+                <Button onClick={askRufund} className="my-5" type="button">Send request</Button>
+                {alertMsg && <Alert variant="danger">{alertMsg}</Alert>}
             </Form>
         </div>
     );

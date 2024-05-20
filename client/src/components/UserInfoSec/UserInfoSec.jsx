@@ -76,7 +76,7 @@ export default function UserInfoSec() {
                 <h4 className=''>Le tue informazioni:</h4>
                 <Row>
                     {userDataArr.map(([camp_name, value, isModifiable, serveKey], index) => (
-                        <Col key={serveKey} xs="12" md="6" lg="4" className='my-3'>
+                        <Col key={index} xs="12" md="6" lg="4" className='my-3'>
                             <UserInfoItem
                                 index={index}
                                 serveKey={serveKey}

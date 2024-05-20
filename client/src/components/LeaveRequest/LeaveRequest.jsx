@@ -37,8 +37,9 @@ export default function LeaveRequest() {
             endHour: endHour,
             note: note
         }
+        console.log(payload)
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/user/newpermission`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/user/permission`, {
                 method: "POST",
                 headers: {
                     "Authorization": token,
@@ -65,7 +66,7 @@ export default function LeaveRequest() {
 
     return (
         <div>
-            <h3 className='mb-5'>New leave request:</h3>
+            <h1 className='mb-4'>New leave request:</h1>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Row className="mb-3">
                     <Form.Group as={Col} md="4" controlId="validationCustom01">

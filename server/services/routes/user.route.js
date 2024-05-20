@@ -4,6 +4,8 @@ import Permission from "../models/permission.model.js";
 import bcrypt from "bcryptjs";
 import { verifyJWT } from "../middleware/authMiddleware.js";
 import { setPasswordMail } from "../mail/setPassword.mail.js";
+import Overtime from "../models/overtime.mode.js";
+import Refund from "../models/refund.model.js";
 
 const userRoute = Router();
 
@@ -96,13 +98,11 @@ userRoute.post("/newemployee", async (req, res, next) => {
 
 
 // New Permission request
-userRoute.post("/newpermission", async (req, res, next) => {
+userRoute.post("/permission", async (req, res, next) => {
     try {
         const employeeId = req.user.id;
-        
         const { type, startDate, endDate, startHour, endHour, note } = req.body;
-        
-        console.log(req.body);
+
         if (!type || !startDate || !endDate || !startHour || !endHour) {
             return res.status(400).json({ message: "All fields except note are required." });
         }
@@ -128,7 +128,78 @@ userRoute.post("/newpermission", async (req, res, next) => {
 
 
 
+// get alla permissin
+userRoute.get("/permission", async (req, res, next) => {
+    try {
+        const employeeId = req.user.id;
+        let permissionList = [];
+        if (employeeId) {
+            permissionList = await Permission.find({ 'employeeId': employeeId });
+        }
+        res.status(201).send(permissionList);
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+});
 
+
+
+// New Overtime request
+userRoute.post("/newovertime", async (req, res, next) => {
+    try {
+        const employeeId = req.user.id;
+        const { date, hours_number, note } = req.body;
+
+        if (!date || !hours_number) {
+            return res.status(400).json({ message: "All fields except note are required." });
+        }
+
+        const newovertime = new Overtime({
+            date,
+            hours_number,
+            note,
+            status: "Requested",
+            employeeId
+        });
+        await newovertime.save();
+
+        res.status(201).json({ message: "Overtime request created successfully.", overtime: newovertime });
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+});
+
+
+// New Refund request
+userRoute.post("/newrefund", async (req, res, next) => {
+    try {
+        const employeeId = req.user.id;
+        const { type, expense_date, payment_type, kilometers, note, amount } = req.body;
+
+        if ((!type || !expense_date || !payment_type || !amount) || (type === "KM" && !kilometers) || (type === "KM" && !note)) {
+            return res.status(400).json({ message: "All fields except note are required." });
+        }
+
+        const newRefund = new Refund({
+            type,
+            expense_date,
+            payment_type,
+            kilometers,
+            amount,
+            note,
+            status: "Requested",
+            employeeId
+        });
+        await newRefund.save();
+
+        res.status(201).json({ message: "Overtime request created successfully.", Refund: newRefund });
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+});
 
 
 export default userRoute;
