@@ -22,7 +22,13 @@ export default function
                                     <Nav.Link eventKey="first">Personal information</Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
-                                    <Nav.Link eventKey="second">Make a new request</Nav.Link>
+                                    <Nav.Link eventKey="second">Management of requests</Nav.Link>
+                                </Nav.Item>
+                                <Nav.Item>
+                                    <Nav.Link eventKey="third">register working hours</Nav.Link>
+                                </Nav.Item>
+                                <Nav.Item>
+                                    <Nav.Link eventKey="fourth">Book resources</Nav.Link>
                                 </Nav.Item>
                             </Nav>
                         </Col>
@@ -33,6 +39,12 @@ export default function
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="second">
                                     <AllRequest />
+                                </Tab.Pane>
+                                <Tab.Pane eventKey="third">
+                                   
+                                </Tab.Pane>
+                                <Tab.Pane eventKey="fourth">
+                                   
                                 </Tab.Pane>
                             </Tab.Content>
                         </Col>

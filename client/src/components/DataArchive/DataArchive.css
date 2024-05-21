@@ -1,0 +1,24 @@
+.dataArchive .accordion-body {
+    background-color: #cfceced3;
+}
+
+.dataArchive .accordion-header>button,
+.dataArchive .card-header {
+    background-color: #f8f8f8;
+}
+
+.dataArchive .accordion .card-body {
+    background-color: #666666;
+    border-radius: 5px;
+}
+
+.dataArchive strong{
+    color: #76ABAE;
+    font-weight: 700;
+}
+
+.dataArchive .accordion-body .card-title span{
+    color: #e4e6e9;
+    font-weight: 700;
+    font-family: "poetsen";
+}

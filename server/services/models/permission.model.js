@@ -2,6 +2,7 @@ import { model, Schema } from "mongoose";
 
 const permissionSchema = new Schema(
     {
+        
         type: {
             type: String,
             required: true,
@@ -27,7 +28,7 @@ const permissionSchema = new Schema(
             type: String,
             required: false
         },
-        status: {
+        state: {
             type: String,
             required: true,
             enum: ["Approved", "Requested", "Cancelled", "Not Approved"]

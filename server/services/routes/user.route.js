@@ -114,7 +114,7 @@ userRoute.post("/permission", async (req, res, next) => {
             startHour,
             endHour,
             note,
-            status: "Requested",
+            state: "Requested",
             employeeId
         });
         await newPermission.save();
@@ -146,7 +146,7 @@ userRoute.get("/permission", async (req, res, next) => {
 
 
 // New Overtime request
-userRoute.post("/newovertime", async (req, res, next) => {
+userRoute.post("/overtime", async (req, res, next) => {
     try {
         const employeeId = req.user.id;
         const { date, hours_number, note } = req.body;
@@ -171,14 +171,29 @@ userRoute.post("/newovertime", async (req, res, next) => {
     }
 });
 
+// get all overtime requests
+userRoute.get("/overtime", async (req, res, next) => {
+    try {
+        const employeeId = req.user.id;
+        let overTimeList = [];
+        if (employeeId) {
+            overTimeList = await Overtime.find({ 'employeeId': employeeId });
+        }
+        res.status(201).send(overTimeList);
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+});
+
 
 // New Refund request
-userRoute.post("/newrefund", async (req, res, next) => {
+userRoute.post("/refund", async (req, res, next) => {
     try {
         const employeeId = req.user.id;
         const { type, expense_date, payment_type, kilometers, note, amount } = req.body;
 
-        if ((!type || !expense_date || !payment_type || !amount) || (type === "KM" && !kilometers) || (type === "KM" && !note)) {
+        if ((!type || !expense_date || !payment_type || !amount) || (type === "KM" && !kilometers) || (type === "Other" && !note)) {
             return res.status(400).json({ message: "All fields except note are required." });
         }
 
@@ -189,12 +204,27 @@ userRoute.post("/newrefund", async (req, res, next) => {
             kilometers,
             amount,
             note,
-            status: "Requested",
+            state: "Requested",
             employeeId
         });
         await newRefund.save();
 
         res.status(201).json({ message: "Overtime request created successfully.", Refund: newRefund });
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+});
+
+// get all Refund requests
+userRoute.get("/refund", async (req, res, next) => {
+    try {
+        const employeeId = req.user.id;
+        let refundList = [];
+        if (employeeId) {
+            refundList = await Refund.find({ 'employeeId': employeeId });
+        }
+        res.status(201).send(refundList);
     } catch (err) {
         console.error(err);
         next(err);

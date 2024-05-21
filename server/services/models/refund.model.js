@@ -6,7 +6,7 @@ const refundSchema = new Schema(
             type: {
                 type: String,
                 require: true,
-                enum: ["Trasport", "Hotel", "Dinner", "Lunch", "Car rent", "KM", "Taxi", "Other"]
+                enum: ["Transport", "Hotel", "Dinner", "Lunch", "Car rent", "KM", "Taxi", "Other"]
             },
             expense_date: {
                 type: Date,

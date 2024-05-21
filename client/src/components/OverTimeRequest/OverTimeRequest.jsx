@@ -32,7 +32,7 @@ export default function OverTimeRequest() {
             note: note
         }
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/user/newovertime`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/user/overtime`, {
                 method: "POST",
                 headers: {
                     "Authorization": token,

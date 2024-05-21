@@ -52,7 +52,7 @@ export default function RefundRequest() {
             note: note
         }
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/user/newrefund`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/user/refund`, {
                 method: "POST",
                 headers: {
                     "Authorization": token,
