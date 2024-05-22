@@ -6,6 +6,8 @@ import { verifyJWT } from "../middleware/authMiddleware.js";
 import { setPasswordMail } from "../mail/setPassword.mail.js";
 import Overtime from "../models/overtime.mode.js";
 import Refund from "../models/refund.model.js";
+import Client from "../models/client.model.js";
+import TimeRegister from "../models/TimeRegister.js";
 
 const userRoute = Router();
 
@@ -64,35 +66,6 @@ userRoute.put("/modify", async (req, res, next) => {
         console.error(err);
         res.status(500).send("Server Error");
         next(err);
-    }
-});
-
-
-
-// Post a new Employee profile
-userRoute.post("/newemployee", async (req, res, next) => {
-    try {
-        const chosenMail = req.body.mail;
-
-        const isEmailAviable = await Employee.findOne({
-            company_mail: chosenMail
-        });
-
-        if (isEmailAviable) {
-            res.status(400).send("user name is not aviable");
-            return;
-        } else {
-            const employee = await Employee.create({
-                ...req.body
-            });
-
-            await setPasswordMail(employee);
-
-            res.status(200).send("Employee created successfully");
-        }
-    } catch (err) {
-        console.error(err);
-        next();
     }
 });
 
@@ -223,8 +196,70 @@ userRoute.get("/refund", async (req, res, next) => {
         let refundList = [];
         if (employeeId) {
             refundList = await Refund.find({ 'employeeId': employeeId });
+            res.status(201).send(refundList);
         }
-        res.status(201).send(refundList);
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+});
+
+
+// get all clients 
+userRoute.get("/clients", async (req, res, next) => {
+    try {
+        let clientsList = [];
+        clientsList = await Client.find();
+        res.status(201).send(clientsList);
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+});
+
+// get all registered hours
+userRoute.get("/hours", async (req, res, next) => {
+    try {
+        const employeeId = req.user.id;
+        const { date } = req.body;
+        let timeregisterList = [];
+        if (employeeId) {
+            if (date) {
+                timeregisterList = await TimeRegister.find(
+                    {
+                        employeeId: employeeId,
+                        date: date
+                    }
+                );
+            } else {
+                return res.status(400).json({ message: "Date is required." });
+            }
+            res.status(201).send(timeregisterList);
+        }
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+});
+
+// register new hour
+userRoute.post("/hours", async (req, res, next) => {
+    try {
+        const { date, hours_number, clientId } = req.body;
+        if (!clientId || !hours_number || !date) {
+            const newTimeRegister = new TimeRegister({
+                employeeId: req.user.id,
+                date: date,
+                hours_number: hours_number,
+                clientId: clientId
+            });
+
+            await newTimeRegister.save();
+            res.status(201).send(newTimeRegister);
+        } else {
+            return res.status(400).json({ message: "Date, hours_number and clientId are required." });
+        }
+
     } catch (err) {
         console.error(err);
         next(err);

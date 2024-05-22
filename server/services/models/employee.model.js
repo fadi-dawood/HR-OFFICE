@@ -119,6 +119,10 @@ const employeeSchema = new Schema(
         company_mail: {
             type: String,
             require: true,
+        },
+        isAdmin:{
+            type: Boolean,
+            require: true,
         }
     },
     {

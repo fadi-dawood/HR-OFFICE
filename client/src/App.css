@@ -117,3 +117,12 @@
 .f-red{
   color: #e44b4b;
 }
+.f-black{
+  color: black;
+}
+
+/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11  */
+.react-calendar button {
+  background-color: black;
+  border: 0;
+}

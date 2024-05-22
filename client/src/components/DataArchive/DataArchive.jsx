@@ -43,7 +43,6 @@ export default function DataArchive({ dataArray = [] }) {
     return (
         (dataArray.length > 0) ? (
             <Container className='dataArchive'>
-
                 <Row>
                     <Col className='my-2' md={8}>
                         <Accordion className='dg-dark' defaultActiveKey="0" >

@@ -5,7 +5,7 @@ import Tab from 'react-bootstrap/Tab';
 import "./Profile.css"
 import Nav from 'react-bootstrap/Nav';
 import AllRequest from '../../components/AllRequests/AllRequest.jsx';
-
+import RegisterHours from '../../components/RegisterHours/RegisterHours.jsx';
 
 
 export default function
@@ -14,7 +14,7 @@ export default function
         <div className='home-page bg-dark py-5'>
             <Container fluid="sm">
                 <h2 className='mb-5'>{`Welcome back ${localStorage.getItem("loggedUserName")} ${localStorage.getItem("loggedUserLastname")}`}</h2>
-                <Tab.Container id="left-tabs-example" defaultActiveKey="second">
+                <Tab.Container id="left-tabs-example" defaultActiveKey="third">
                     <Row>
                         <Col sm={3}>
                             <Nav variant="pills" className="flex-column">
@@ -25,7 +25,7 @@ export default function
                                     <Nav.Link eventKey="second">Management of requests</Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
-                                    <Nav.Link eventKey="third">register working hours</Nav.Link>
+                                    <Nav.Link eventKey="third">Register working hours</Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
                                     <Nav.Link eventKey="fourth">Book resources</Nav.Link>
@@ -41,20 +41,16 @@ export default function
                                     <AllRequest />
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="third">
-                                   
+                                    <RegisterHours />
+                                  
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="fourth">
-                                   
+
                                 </Tab.Pane>
                             </Tab.Content>
                         </Col>
                     </Row>
                 </Tab.Container>
-
-
-
-
-
             </Container>
         </div>
     )

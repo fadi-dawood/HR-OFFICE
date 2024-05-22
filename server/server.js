@@ -2,9 +2,10 @@ import express from "express";
 import { config } from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
-import { authMiddleware } from "./services/middleware/authMiddleware.js";
+import { authAdminMiddleware, authMiddleware } from "./services/middleware/authMiddleware.js";
 import userRoute from "./services/routes/user.route.js";
 import signRoute from "./services/routes/sign.route.js";
+import adminRoute from "./services/routes/admin.route.js";
 
 // caricare le variabili da .env
 config();
@@ -25,6 +26,7 @@ app.use(express.json());
 
 // Importa routes:
 app.use("/user", authMiddleware, userRoute);
+app.use("/admin", authAdminMiddleware, adminRoute);
 app.use("/sign", signRoute);
 
 

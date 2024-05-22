@@ -2,15 +2,13 @@ import { model, Schema } from "mongoose";
 
 const clientSchema = new Schema(
     {
-        name: {
+        company_name: {
             type: String,
             required: true,
-            unique: true
         },
         email: {
             type: String,
             required: true,
-            unique: true,
             match: [/.+\@.+\..+/, "Please enter a valid email address"]
         },
         phone_number: {

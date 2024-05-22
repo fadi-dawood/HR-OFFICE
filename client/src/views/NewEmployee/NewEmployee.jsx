@@ -47,6 +47,7 @@ export default function NewEmployee() {
     //^-------------------------------------------------------------------------------------------------------------------------------------//
     // submit function
     const [validated, setValidated] = useState(false);
+    const token = localStorage.getItem("token");
     const handleSubmit = async (event) => {
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
@@ -88,9 +89,10 @@ export default function NewEmployee() {
 
             try {
                 console.log(process.env.REACT_APP_API_URL);
-                const response = await fetch(`${process.env.REACT_APP_API_URL}/user/newemployee`, {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/admin/newemployee`, {
                     method: 'POST',
                     headers: {
+                        "Authorization": token,
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(payload)
