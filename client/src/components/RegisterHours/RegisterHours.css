@@ -1,7 +1,0 @@
-  .weekend abbr {
-      color: rgba(227, 240, 57, 0.753) !important;
-  }
-
-  .calender button:hover abbr {
-    color: black !important;
-}

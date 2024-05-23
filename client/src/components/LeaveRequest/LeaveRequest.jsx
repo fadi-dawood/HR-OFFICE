@@ -160,7 +160,7 @@ export default function LeaveRequest() {
                         />
                     </Form.Group>
                 </Row>
-                <Button onClick={askPermission} className="my-5" type="button">Send request</Button>
+                <Button onClick={askPermission} className="my-5" type="submit">Send request</Button>
                 {alertMsg && <Alert variant="danger">{alertMsg}</Alert>}
             </Form>
         </div>

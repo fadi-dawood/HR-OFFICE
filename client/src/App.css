@@ -109,7 +109,7 @@
 
 /* fonts colors */
 .f-white{
-  color: white;
+  color: white !important;
 }
 .f-grey{
   color: #81848a;
@@ -121,8 +121,6 @@
   color: black;
 }
 
-/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11  */
-.react-calendar button {
-  background-color: black;
-  border: 0;
+.f-green{
+  color:#54aeb3;
 }

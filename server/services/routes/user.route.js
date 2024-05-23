@@ -221,7 +221,7 @@ userRoute.get("/clients", async (req, res, next) => {
 userRoute.get("/hours", async (req, res, next) => {
     try {
         const employeeId = req.user.id;
-        const { date } = req.body;
+        const { date } = req.query;
         let timeregisterList = [];
         if (employeeId) {
             if (date) {
@@ -230,7 +230,7 @@ userRoute.get("/hours", async (req, res, next) => {
                         employeeId: employeeId,
                         date: date
                     }
-                );
+                ).populate('client'); // also sent all the data of the client
             } else {
                 return res.status(400).json({ message: "Date is required." });
             }
@@ -245,26 +245,50 @@ userRoute.get("/hours", async (req, res, next) => {
 // register new hour
 userRoute.post("/hours", async (req, res, next) => {
     try {
-        const { date, hours_number, clientId } = req.body;
-        if (!clientId || !hours_number || !date) {
-            const newTimeRegister = new TimeRegister({
-                employeeId: req.user.id,
-                date: date,
-                hours_number: hours_number,
-                clientId: clientId
-            });
-
-            await newTimeRegister.save();
-            res.status(201).send(newTimeRegister);
-        } else {
-            return res.status(400).json({ message: "Date, hours_number and clientId are required." });
+        const { date, hours_number, client } = req.body;
+        // console.log(date, hours_number, client);
+        if (!date || !hours_number || !client) {
+            return res.status(400).json({ message: "Date, hours_number and client are required." });
         }
+
+        const newTimeRegister = new TimeRegister({
+            employeeId: req.user.id,
+            date: date,
+            hours_number: hours_number,
+            client: client
+        });
+
+        await newTimeRegister.save();
+
+        res.status(201).send(newTimeRegister);
 
     } catch (err) {
         console.error(err);
         next(err);
     }
 });
+
+
+userRoute.delete('/hours/:id', async (req, res, next) => {
+    try {
+      const hourId = req.params.id;
+      
+      // Check if the hour exists
+      const existingHour = await TimeRegister.findById(hourId);
+      if (!existingHour) {
+        return res.status(404).json({ message: "Hour not found." });
+      }
+  
+      // Delete the hour
+      await TimeRegister.findByIdAndDelete(hourId);
+      
+      res.status(200).json({ message: "Hour deleted successfully." });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: "Internal server error." });
+    }
+  });
+
 
 
 export default userRoute;

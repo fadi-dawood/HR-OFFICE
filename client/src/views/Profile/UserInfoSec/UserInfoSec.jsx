@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Button, Row, Col, Alert } from "react-bootstrap";
-import UserInfoItem from '../UserInfoItem/UserInfoItem.jsx';
+import {  Row, Col } from "react-bootstrap";
+import UserInfoItem from '../../../components/UserInfoItem/UserInfoItem.jsx';
 
 export default function UserInfoSec() {
     //^ Variables

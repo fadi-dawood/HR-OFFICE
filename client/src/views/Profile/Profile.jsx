@@ -1,11 +1,11 @@
 import React from 'react';
-import UserInfoSec from '../../components/UserInfoSec/UserInfoSec.jsx';
+import UserInfoSec from './UserInfoSec/UserInfoSec.jsx';
 import { Container, Button, Row, Col, Alert } from "react-bootstrap";
 import Tab from 'react-bootstrap/Tab';
 import "./Profile.css"
 import Nav from 'react-bootstrap/Nav';
-import AllRequest from '../../components/AllRequests/AllRequest.jsx';
-import RegisterHours from '../../components/RegisterHours/RegisterHours.jsx';
+import AllRequest from './AllRequests/AllRequest.jsx';
+import RegisterHours from './RegisterHours/RegisterHours.jsx';
 
 
 export default function

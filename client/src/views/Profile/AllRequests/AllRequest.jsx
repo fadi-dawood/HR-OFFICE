@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import LeaveRequest from '../LeaveRequest/LeaveRequest.jsx';
-import OverTimeRequest from '../OverTimeRequest/OverTimeRequest.jsx';
-import RefundRequest from '../RefundRequest/RefundRequest.jsx';
+import LeaveRequest from '../../../components/LeaveRequest/LeaveRequest.jsx';
+import OverTimeRequest from '../../../components/OverTimeRequest/OverTimeRequest.jsx';
+import RefundRequest from '../../../components/RefundRequest/RefundRequest.jsx';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import DataArchive from '../DataArchive/DataArchive.jsx';
+import DataArchive from '../../../components/DataArchive/DataArchive.jsx';
 
 
 

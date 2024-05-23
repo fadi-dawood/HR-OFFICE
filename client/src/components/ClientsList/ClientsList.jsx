@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 
-export default function ClientsList({ setClient }) {
+export default function ClientsList({ setClientId, clientId }) {
     //^variables:
     const [clients, setClients] = useState([]);
     const token = localStorage.getItem("token");
@@ -19,7 +19,6 @@ export default function ClientsList({ setClient }) {
             if (response.ok) {
                 const data = await response.json();
                 setClients(data);
-                console.log(data)
             } else {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
@@ -32,7 +31,8 @@ export default function ClientsList({ setClient }) {
 
     return (
         <Form.Select
-            onChange={(e) => setClient(e.target.value)}
+            onChange={(e) => setClientId(e.target.value)}
+            value={clientId}
             aria-label="Default select example"
             data-bs-theme="dark"
             required

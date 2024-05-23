@@ -15,7 +15,7 @@ const timeRegisterSchema = new Schema(
             type: Number,
             require: true
         },
-        clientId: {
+        client: {
             type: Schema.Types.ObjectId,
             ref: "Client",
             required: true
