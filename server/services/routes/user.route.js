@@ -88,7 +88,7 @@ userRoute.post("/permission", async (req, res, next) => {
             endHour,
             note,
             state: "Requested",
-            employeeId
+            employee: employeeId
         });
         await newPermission.save();
 
@@ -107,7 +107,7 @@ userRoute.get("/permission", async (req, res, next) => {
         const employeeId = req.user.id;
         let permissionList = [];
         if (employeeId) {
-            permissionList = await Permission.find({ 'employeeId': employeeId });
+            permissionList = await Permission.find({ 'employee': employeeId });
         }
         res.status(201).send(permissionList);
     } catch (err) {
@@ -132,8 +132,8 @@ userRoute.post("/overtime", async (req, res, next) => {
             date,
             hours_number,
             note,
-            status: "Requested",
-            employeeId
+            state: "Requested",
+            employee: employeeId
         });
         await newovertime.save();
 
@@ -150,7 +150,7 @@ userRoute.get("/overtime", async (req, res, next) => {
         const employeeId = req.user.id;
         let overTimeList = [];
         if (employeeId) {
-            overTimeList = await Overtime.find({ 'employeeId': employeeId });
+            overTimeList = await Overtime.find({ 'employee': employeeId });
         }
         res.status(201).send(overTimeList);
     } catch (err) {
@@ -178,7 +178,7 @@ userRoute.post("/refund", async (req, res, next) => {
             amount,
             note,
             state: "Requested",
-            employeeId
+            employee: employeeId
         });
         await newRefund.save();
 
@@ -195,7 +195,7 @@ userRoute.get("/refund", async (req, res, next) => {
         const employeeId = req.user.id;
         let refundList = [];
         if (employeeId) {
-            refundList = await Refund.find({ 'employeeId': employeeId });
+            refundList = await Refund.find({ 'employee': employeeId });
             res.status(201).send(refundList);
         }
     } catch (err) {
@@ -227,7 +227,7 @@ userRoute.get("/hours", async (req, res, next) => {
             if (date) {
                 timeregisterList = await TimeRegister.find(
                     {
-                        employeeId: employeeId,
+                        employee: employeeId,
                         date: date
                     }
                 ).populate('client'); // also sent all the data of the client
@@ -252,7 +252,7 @@ userRoute.post("/hours", async (req, res, next) => {
         }
 
         const newTimeRegister = new TimeRegister({
-            employeeId: req.user.id,
+            employee: req.user.id,
             date: date,
             hours_number: hours_number,
             client: client
@@ -271,23 +271,23 @@ userRoute.post("/hours", async (req, res, next) => {
 
 userRoute.delete('/hours/:id', async (req, res, next) => {
     try {
-      const hourId = req.params.id;
-      
-      // Check if the hour exists
-      const existingHour = await TimeRegister.findById(hourId);
-      if (!existingHour) {
-        return res.status(404).json({ message: "Hour not found." });
-      }
-  
-      // Delete the hour
-      await TimeRegister.findByIdAndDelete(hourId);
-      
-      res.status(200).json({ message: "Hour deleted successfully." });
+        const hourId = req.params.id;
+
+        // Check if the hour exists
+        const existingHour = await TimeRegister.findById(hourId);
+        if (!existingHour) {
+            return res.status(404).json({ message: "Hour not found." });
+        }
+
+        // Delete the hour
+        await TimeRegister.findByIdAndDelete(hourId);
+
+        res.status(200).json({ message: "Hour deleted successfully." });
     } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: "Internal server error." });
+        console.error(err);
+        res.status(500).json({ message: "Internal server error." });
     }
-  });
+});
 
 
 

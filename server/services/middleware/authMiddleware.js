@@ -81,7 +81,7 @@ export const authMiddleware = async (req, res, next) => {
 
 
 
-// Middleware to use in requests that require authorization
+// Middleware to use in requests that require an admin authorization
 export const authAdminMiddleware = async (req, res, next) => {
     try {
         // The token was not provided in the header

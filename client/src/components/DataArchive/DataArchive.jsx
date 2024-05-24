@@ -103,8 +103,7 @@ export default function DataArchive({ dataArray = [] }) {
                 </Row>
             </Container >
         ) : (
-            <Container className='LeaveRequestArchive'>
-                <h1 className="my-4">Leave Archive</h1>
+            <Container className='dataArchive'>
                 <h3>You haven't made any requests yet</h3>
             </Container>
         )

@@ -2,7 +2,7 @@ import { model, Schema } from "mongoose";
 
 const timeRegisterSchema = new Schema(
     {
-        employeeId: {
+        employee: {
             type: Schema.Types.ObjectId,
             ref: "Employee",
             required: true

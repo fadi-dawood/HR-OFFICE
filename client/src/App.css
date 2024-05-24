@@ -108,19 +108,26 @@
 }
 
 /* fonts colors */
-.f-white{
+.f-white {
   color: white !important;
 }
-.f-grey{
-  color: #81848a;
-}
-.f-red{
-  color: #e44b4b;
-}
-.f-black{
-  color: black;
+
+.f-grey {
+  color: #81848a !important;
 }
 
-.f-green{
-  color:#54aeb3;
+.f-red {
+  color: #e44b4b !important;
+}
+
+.f-black {
+  color: black !important;
+}
+
+.f-green {
+  color: #54aeb3 !important;
+}
+
+.f-pink {
+  color: #e44c79 !important;
 }

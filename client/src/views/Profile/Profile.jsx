@@ -11,7 +11,7 @@ import RegisterHours from './RegisterHours/RegisterHours.jsx';
 export default function
     () {
     return (
-        <div className='home-page bg-dark py-5'>
+        <div className='profile-page bg-dark py-5'>
             <Container fluid="sm">
                 <h2 className='mb-5'>{`Welcome back ${localStorage.getItem("loggedUserName")} ${localStorage.getItem("loggedUserLastname")}`}</h2>
                 <Tab.Container id="left-tabs-example" defaultActiveKey="third">

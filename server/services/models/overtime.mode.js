@@ -8,7 +8,7 @@ const overtimeSchema = new Schema(
                 require: true,
                 enum: ["Approved", "Requested", "Cancelled", "Not approved"]
             },
-            employeeId: {
+            employee: {
                 type: Schema.Types.ObjectId,
                 ref: "Employee",
                 required: true

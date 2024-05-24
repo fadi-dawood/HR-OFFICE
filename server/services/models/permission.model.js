@@ -31,9 +31,9 @@ const permissionSchema = new Schema(
         state: {
             type: String,
             required: true,
-            enum: ["Approved", "Requested", "Cancelled", "Not Approved"]
+            enum: ["Approved", "Requested", "Cancelled", "Rejected"]
         },
-        employeeId: {
+        employee: {
             type: Schema.Types.ObjectId,
             ref: "Employee",
             required: true
