@@ -18,6 +18,13 @@ export default function SetPassword() {
     const { token } = useParams();
     const navigate = useNavigate()
 
+    //^ if you are logged-in => go to the home page
+    useEffect(() => {
+        if (token) {
+            navigate("/home");
+        }
+    }, []);
+
     //^ Make the call to set the password
     async function handleSetPass() {
         if (!(pass === passVerify) || !pass) {

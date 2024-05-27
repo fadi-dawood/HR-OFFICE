@@ -3,7 +3,10 @@ import { Container, Row, Col } from "react-bootstrap";
 import Tab from 'react-bootstrap/Tab';
 import Nav from 'react-bootstrap/Nav';
 import DashboardRequests from './DashboardRequests/DashboardRequests.jsx';
-
+import NewEmployee from './NewEmployee/NewEmployee.jsx';
+import NewClient from './NewClient/NewClient.jsx';
+import NewPost from './NewPost/NewPost.jsx';
+import DataExtraction from './DataExtraction/DataExtraction.jsx';
 
 
 
@@ -20,11 +23,51 @@ export default function Dashboard() {
                                     <Nav.Link eventKey="first">Management of requests</Nav.Link>
                                 </Nav.Item>
                             </Nav>
+                            <Nav variant="pills" className="flex-column">
+                                <Nav.Item>
+                                    <Nav.Link eventKey="second">Add new Employee</Nav.Link>
+                                </Nav.Item>
+                            </Nav>
+                            <Nav variant="pills" className="flex-column">
+                                <Nav.Item>
+                                    <Nav.Link eventKey="third">Add new Client</Nav.Link>
+                                </Nav.Item>
+                            </Nav>
+                            <Nav variant="pills" className="flex-column">
+                                <Nav.Item>
+                                    <Nav.Link eventKey="fourth">Add new Post</Nav.Link>
+                                </Nav.Item>
+                            </Nav>
+                            <Nav variant="pills" className="flex-column">
+                                <Nav.Item>
+                                    <Nav.Link eventKey="fifth">Data extraction</Nav.Link>
+                                </Nav.Item>
+                            </Nav>
                         </Col>
                         <Col sm={9}>
                             <Tab.Content>
                                 <Tab.Pane eventKey="first">
                                     <DashboardRequests />
+                                </Tab.Pane>
+                            </Tab.Content>
+                            <Tab.Content>
+                                <Tab.Pane eventKey="second">
+                                    < NewEmployee />
+                                </Tab.Pane>
+                            </Tab.Content>
+                            <Tab.Content>
+                                <Tab.Pane eventKey="third">
+                                    < NewClient />
+                                </Tab.Pane>
+                            </Tab.Content>
+                            <Tab.Content>
+                                <Tab.Pane eventKey="fourth">
+                                    < NewPost />
+                                </Tab.Pane>
+                            </Tab.Content>
+                            <Tab.Content>
+                                <Tab.Pane eventKey="fifth">
+                                    <DataExtraction />
                                 </Tab.Pane>
                             </Tab.Content>
                         </Col>

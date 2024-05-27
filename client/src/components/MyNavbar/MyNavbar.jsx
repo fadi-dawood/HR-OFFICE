@@ -13,6 +13,17 @@ export default function MyNavbar() {
     useEffect(() => {
     }, [loggedUserName, loggedUserLastname]);
 
+
+    //^ Log-out function
+    function hundleLogout() {
+        localStorage.removeItem("token");
+        localStorage.removeItem("loggedUserLastname");
+        localStorage.removeItem("admin");
+        localStorage.removeItem("loggedUserName");
+        localStorage.removeItem("authenticated");
+        window.location.reload();
+    };
+
     return (
         <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary" bg="dark" data-bs-theme="dark">
             <Container >
@@ -40,14 +51,19 @@ export default function MyNavbar() {
                     </Nav>
                     <Nav>
                         <NavDropdown title={`${loggedUserName} ${loggedUserLastname}`} id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.1">Profile</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.4">Log-out</NavDropdown.Item>
-                        </NavDropdown>
-                    </Nav>
-                </Navbar.Collapse>
-            </Container>
+                            <NavDropdown.Item href="profile">Profile</NavDropdown.Item>
+                            {(localStorage.getItem("admin") !== "") &&
+                                < NavDropdown.Item href="dashboard">Dashboard</NavDropdown.Item>
+                            }
+                        <NavDropdown.Divider />
+                        <NavDropdown.Item onClick={hundleLogout}>
+                            Log-out
+                        </NavDropdown.Item>
+                    </NavDropdown>
+                </Nav>
+            </Navbar.Collapse>
+        </Container>
 
-        </Navbar>
+        </Navbar >
     );
 };

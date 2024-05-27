@@ -22,7 +22,7 @@ export const setPasswordMail = async (employee) => {
         const token = await generateJWT({ id: employee._id });
 
         // Create the link to set the password
-        const setPasswordUrl = `${process.env.URL_FRONT}/sign/setpassword/${token}`;
+        const setPasswordUrl = `${process.env.URL_FRONT}/setpassword/${token}`;
 
         // create the messegge mail
         const mailOptions = {

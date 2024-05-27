@@ -11,16 +11,19 @@ export default function UserDataContextProvider({ children }) {
     const [loggedUserLastname, setLoggedUserLastname] = useState(
         localStorage.getItem("loggedUserLastname") || ""
     );
+    const [admin, setAdmin] = useState(localStorage.getItem("admin") || false);
 
 
     useEffect(() => {
         localStorage.setItem("loggedUserName", loggedUserName);
         localStorage.setItem("loggedUserLastname", loggedUserLastname);
-    }, [loggedUserName, loggedUserLastname]);
+        localStorage.setItem("admin", admin);
+    }, [loggedUserName, loggedUserLastname, admin]);
 
     const value = {
         loggedUserName, setLoggedUserName,
-        loggedUserLastname, setLoggedUserLastname
+        loggedUserLastname, setLoggedUserLastname,
+        admin, setAdmin
     }
 
     return (

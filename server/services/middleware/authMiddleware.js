@@ -84,6 +84,7 @@ export const authMiddleware = async (req, res, next) => {
 // Middleware to use in requests that require an admin authorization
 export const authAdminMiddleware = async (req, res, next) => {
     try {
+       
         // The token was not provided in the header
         if (!req.headers.authorization) {
             res.status(400).send("login required");
@@ -99,17 +100,17 @@ export const authAdminMiddleware = async (req, res, next) => {
 
                 delete decoded.iat; //token issued time 
                 delete decoded.exp; // token expire time
-
                 const me = await Employee.findOne({
                     ...decoded,
                 });
 
                 if (me) {
+                    console.log(me.isAdmin);
                     if (me.isAdmin) {
                         // Adding the user parameter to the request object. req.user will have all the user data directly from the database
                         req.user = me;
                         next();
-                    } else{
+                    } else {
                         res.status(400).send("You are not authorized");
                     }
                 } else {

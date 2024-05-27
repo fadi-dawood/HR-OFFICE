@@ -98,7 +98,7 @@ export default function NewEmployee() {
                     body: JSON.stringify(payload)
                 });
                 if (response.ok) {
-                    console.log("ok")
+                    window.location.reload();
                 }
             } catch (error) {
                 console.error('Si è verificato un errore:', error);
@@ -158,9 +158,9 @@ export default function NewEmployee() {
                                     required
                                 >
                                     <option value="">Select gender</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                    <option value="other">Other</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
                                 </Form.Select>
                             </Form.Group>
                         </Row>
@@ -472,7 +472,7 @@ export default function NewEmployee() {
                     </div>
 
 
-                    <Button className="mt-5" type="submit">Submit form</Button>
+                    <Button className="mt-5" type="submit">Add Employee</Button>
                 </Form>
             </Container>
         </div>

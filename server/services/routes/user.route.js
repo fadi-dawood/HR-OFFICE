@@ -8,6 +8,10 @@ import Overtime from "../models/overtime.mode.js";
 import Refund from "../models/refund.model.js";
 import Client from "../models/client.model.js";
 import TimeRegister from "../models/TimeRegister.js";
+import Post from "../models/posts.model.js";
+
+
+
 
 const userRoute = Router();
 
@@ -23,6 +27,17 @@ userRoute.get("/", async (req, res, next) => {
     }
 });
 
+// Get all the admins
+userRoute.get("/admins", async (req, res, next) => {
+    try {
+        const admins = await Employee.find({ isAdmin: true});
+        res.send(admins);
+    } catch (err) {
+        console.error(err);
+        res.status(500);
+        next();
+    }
+});
 
 // Get the logged spesific employee
 userRoute.get("/me", async (req, res, next) => {
@@ -268,7 +283,7 @@ userRoute.post("/hours", async (req, res, next) => {
     }
 });
 
-
+// delete a registered hour
 userRoute.delete('/hours/:id', async (req, res, next) => {
     try {
         const hourId = req.params.id;
@@ -285,9 +300,29 @@ userRoute.delete('/hours/:id', async (req, res, next) => {
         res.status(200).json({ message: "Hour deleted successfully." });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message: "Internal server error." });
+
     }
 });
+
+
+// get all the posts
+userRoute.get('/post', async (req, res, next) => {
+    try {
+        const posts = await Post.find().populate('employee');
+
+        if (!posts || posts.length === 0) {
+            res.status(404).send("No posts are found!");
+            return;
+        }
+        res.status(201).send(posts);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("An error occurred while fetching posts.");
+    }
+});
+
+
+
 
 
 

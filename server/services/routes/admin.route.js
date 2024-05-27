@@ -8,6 +8,8 @@ import Overtime from "../models/overtime.mode.js";
 import Refund from "../models/refund.model.js";
 import Client from "../models/client.model.js";
 import TimeRegister from "../models/TimeRegister.js";
+import Post from "../models/posts.model.js";
+import { Parser } from 'json2csv';
 
 const adminRoute = Router();
 
@@ -21,7 +23,7 @@ adminRoute.post("/newemployee", async (req, res, next) => {
         });
 
         if (isEmailAviable) {
-            res.status(400).send("user name is not aviable");
+            res.status(400).send("company mail is not aviable");
             return;
         } else {
             const employee = await Employee.create({
@@ -34,6 +36,7 @@ adminRoute.post("/newemployee", async (req, res, next) => {
         }
     } catch (err) {
         console.error(err);
+        res.status(500);
         next();
     }
 });
@@ -217,4 +220,76 @@ adminRoute.put("/refund/:id", async (req, res, next) => {
         res.status(404).send("overtime request is not found");
     }
 });
+
+
+// add new client
+adminRoute.post("/post", async (req, res, next) => {
+    const { title, content } = req.body;
+    try {
+        if (!title || !content) {
+            res.status(400).send("title and content are requiered fields to be filled");
+        }
+        else {
+            const post = new Post({
+                title,
+                content,
+                employee: req.user._id
+            })
+            await post.save();
+            res.status(201).send(post);
+        }
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+});
+
+
+adminRoute.get('/employees/csv', async (req, res) => {
+    console.log("employees");
+    try {
+        const employees = await Employee.find({});
+        const fields = [
+            { label: 'Name', value: 'name' },
+            { label: 'Family name', value: 'last_name' },
+            { label: 'Personal Email', value: 'personal_mail' },
+            { label: 'Date of birth', value: 'date_of_birth' },
+            { label: 'Phone Number', value: 'phone_number' },
+            { label: 'Gender', value: 'gender' },
+            { label: 'Birth Place', value: 'birth_place' },
+            { label: 'Nationality', value: 'nationality' },
+            { label: 'Residency permit number', value: 'residency_permit_number' },
+            { label: 'ID Number', value: 'identity_card_number' },
+            { label: 'Tax ID', value: 'tax_id' },
+            { label: 'State of Residence', value: 'residence.state' },
+            { label: 'Region of Residence', value: 'residence.region' },
+            { label: 'City of residence', value: 'residence.city' },
+            { label: 'Residence Street', value: 'residence.street' },
+            { label: 'House number', value: 'residence.house_number' },
+            { label: 'CAP', value: 'residence.cap_number' },
+            { label: 'Hire date', value: 'hire_date' },
+            { label: 'Department', value: 'department' },
+            { label: 'Salary', value: 'salary' },
+            { label: 'Contractual Level', value: 'contract_level' },
+            { label: 'Role', value: 'role' },
+            { label: 'Working hours', value: 'working_hours' },
+            { label: 'Type of Contract', value: 'contract_type' },
+            { label: 'Expiration of the Contract', value: 'contract_expiry' },
+            { label: 'Company Email', value: 'company_mail' },
+            { label: 'Is Admin', value: 'isAdmin' }
+        ];
+
+        const json2csvParser = new Parser({ fields, delimiter: '|' });
+        const csv = json2csvParser.parse(employees);
+        console.log(fields);
+        res.header('Content-Type', 'text/csv');
+        res.attachment('employees.csv');
+        res.send(csv);
+    } catch (err) {
+        console.error('Error fetching employees', err);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
 export default adminRoute;

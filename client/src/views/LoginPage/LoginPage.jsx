@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import "./LoginPage.css"
 import logoImg from "../../assets/logo/png/logo-no-background.png"
 import Container from 'react-bootstrap/esm/Container'
@@ -16,9 +16,16 @@ export default function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loginError, setLoginError] = useState("");
-    const { setLoggedUserName, setLoggedUserLastname } = useContext(UserDataContext);
+    const { setLoggedUserName, setLoggedUserLastname, setAdmin } = useContext(UserDataContext);
     const navigate = useNavigate();
-    const {setToken} = useContext(AuthContext);
+    const { token, setToken } = useContext(AuthContext);
+
+    //^ if you are logged-in => go to the home page
+    useEffect(() => {
+        if (token) {
+            navigate("/home");
+        }
+    }, []);
 
 
     //^ show allert function
@@ -45,6 +52,7 @@ export default function LoginPage() {
                 const userData = await response.json();
                 setLoggedUserName(userData.user.name);
                 setLoggedUserLastname(userData.user.last_name);
+                setAdmin(userData.user.isAdmin);
                 setToken(`Bearer ${userData.token}`);
                 navigate("/home");
             } else if (response.status == 404) {
