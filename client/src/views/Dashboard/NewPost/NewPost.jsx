@@ -1,12 +1,11 @@
-import React, { useCallback, useRef, useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
-import draftToHtml from "draftjs-to-html";
-import ReacrQuill from "react-quill"
-import "react-quill/dist/quill.snow.css"
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import "./NewPost.css";
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import InputGroup from 'react-bootstrap/InputGroup';
+
 
 import Alert from 'react-bootstrap/Alert';
 
@@ -16,8 +15,9 @@ export default function NewPost() {
     //^ Variables
     const [title, setTitle] = useState("");
     const [text, setText] = useState("");
-    const token = localStorage.getItem("token");
     const [errMsg, setErrMsg] = useState("");
+
+    const token = localStorage.getItem("token");
 
     //^ Check that the form is competed
     const [validated, setValidated] = useState(false);
@@ -25,34 +25,24 @@ export default function NewPost() {
         event.preventDefault();
 
         const form = event.currentTarget;
-        if (form.checkValidity() === false) {
+        if (form.checkValidity() === false || !text) {
             event.stopPropagation();
-        }
-
-        setValidated(true);
-        if (!text) {
-            setErrMsg("You can't send a post without a content");
-            setTimeout(() => {
-                setErrMsg("");
-            }, 5000);
-            return;
-        }
-        if (title && text) {
+            setErrMsg("All fields are required");
+            setTimeout(() => setErrMsg(""), 5000);
+        } else {
             sendNewPost();
         }
+        setValidated(true);
     };
 
 
 
     //^ fetch a new post:
-    const sendNewPost = async event => {
-        event.preventDefault();
-
+    const sendNewPost = async () => {
         const payload = {
             title: title,
             content: text
         }
-
         try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/admin/post`, {
                 method: 'POST',
@@ -70,24 +60,18 @@ export default function NewPost() {
                 }, 5000);
                 throw new Error('Network response was not ok');
             } else {
-                resetForm();
+                // Reset the form
+                setTitle("");
+                setText("");
+                setValidated(false);
             }
-
 
         } catch (error) {
             console.error('There was a problem with your fetch operation:', error);
         }
 
-
     };
 
-
-
-    //^ Reset the form
-    function resetForm() {
-        setTitle("");
-        setText("");
-    };
 
 
     return (
@@ -95,14 +79,14 @@ export default function NewPost() {
             <Form className="mt-5" noValidate validated={validated} onSubmit={handleSubmit}>
                 <Row className="mb-3">
                     <Form.Group as={Col} md="12" controlId="validationCustom03">
-                        <Form.Label>Titolo*</Form.Label>
+                        <Form.Label>Title*</Form.Label>
                         <Form.Control data-bs-theme="dark" required value={title} size="lg" placeholder="Title" onChange={(e) => setTitle(e.target.value)} />
                         <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                     </Form.Group>
 
-                    <Form.Group as={Col} md="12" controlId="validationCustom04">
-                        <Form.Label>Contenuto Blog*</Form.Label>
-                        <ReacrQuill theme="snow" required value={text} onChange={setText} />
+                    <Form.Group className="mt-5 mb-3" as={Col} md="12" controlId="validationCustom04">
+                        <Form.Label>Post content*</Form.Label>
+                        <ReactQuill theme="snow" required value={text} onChange={setText} />
                     </Form.Group>
                 </Row>
 
@@ -110,13 +94,12 @@ export default function NewPost() {
                     type="submit"
                     size="lg"
                     variant="primary"
-                    className="my-4"
                 >
                     Post
                 </Button>
             </Form>
 
-            {errMsg && <Alert variant="danger">
+            {errMsg && <Alert className="mt-3" variant="danger">
                 {errMsg}
             </Alert>}
         </Container >

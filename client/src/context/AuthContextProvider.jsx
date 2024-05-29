@@ -8,6 +8,7 @@ export default function AuthContextProvider({ children }) {
     
 
     useEffect(() => {
+        console.log(token !== "");
         localStorage.setItem("authenticated", token !== "");
         localStorage.setItem("token", token);
     }, [token, authenticated]);

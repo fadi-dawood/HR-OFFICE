@@ -44,8 +44,8 @@ adminRoute.post("/newemployee", async (req, res, next) => {
 
 
 // add new client
-adminRoute.post("/clients", async (req, res, next) => {
-    const { company_name, email, phone_number, address, country } = req.body;
+adminRoute.post("/client", async (req, res, next) => {
+    const { company_name, email, phone_number, country } = req.body;
     try {
         if (!company_name || !email || !phone_number) {
             res.status(400).send("Name, Email and phone number are requiered fields to be filled");
@@ -56,7 +56,6 @@ adminRoute.post("/clients", async (req, res, next) => {
                     company_name,
                     email,
                     phone_number,
-                    address,
                     country
                 })
                 await client.save();
@@ -245,8 +244,8 @@ adminRoute.post("/post", async (req, res, next) => {
 });
 
 
-adminRoute.get('/employees/csv', async (req, res) => {
-    console.log("employees");
+// Data extraction - Employee
+adminRoute.get('/employee/csv', async (req, res) => {
     try {
         const employees = await Employee.find({});
         const fields = [
@@ -287,6 +286,252 @@ adminRoute.get('/employees/csv', async (req, res) => {
         res.send(csv);
     } catch (err) {
         console.error('Error fetching employees', err);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
+// Data extraction - client
+adminRoute.get('/client/csv', async (req, res) => {
+    try {
+        const clients = await Client.find({});
+        const fields = [
+            { label: 'Company Name', value: 'company_name' },
+            { label: 'Email', value: 'email' },
+            { label: 'Phone Number', value: 'phone_number' },
+            { label: 'Address', value: 'address' },
+            { label: 'Country', value: 'country' }
+        ];
+
+        const json2csvParser = new Parser({ fields, delimiter: '|' });
+        const csv = json2csvParser.parse(clients);
+        console.log(fields);
+        res.header('Content-Type', 'text/csv');
+        res.attachment('clients.csv');
+        res.send(csv);
+    } catch (err) {
+        console.error('Error fetching clients', err);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
+
+// Data extraction - overtime
+adminRoute.get('/overtime/csv', async (req, res) => {
+    try {
+        const overtimes = await Overtime.find({}).populate('employee');
+
+        // Flatten the data structure for CSV export
+        const flatData = overtimes.map(overtime => ({
+            state: overtime.state,
+            date: overtime.date,
+            hours_number: overtime.hours_number,
+            note: overtime.note,
+
+            employee_name: overtime.employee.name,
+            employee_last_name: overtime.employee.last_name,
+            employee_phone_number: overtime.employee.phone_number,
+            employee_department: overtime.employee.department,
+            employee_role: overtime.employee.role,
+            employee_working_hours: overtime.employee.working_hours,
+            employee_contract_type: overtime.employee.contract_type,
+            employee_company_mail: overtime.employee.company_mail,
+        }));
+
+
+        const fields = [
+            { label: 'State', value: 'state' },
+            { label: 'Date', value: 'date' },
+            { label: 'Hours Number', value: 'hours_number' },
+            { label: 'Note', value: 'note' },
+
+            { label: 'Employee Name', value: 'employee_name' },
+            { label: 'Employee Last Name', value: 'employee_last_name' },
+            { label: 'Employee Phone Number', value: 'employee_phone_number' },
+            { label: 'Employee Department', value: 'employee_department' },
+            { label: 'Employee Role', value: 'employee_role' },
+            { label: 'Employee Working Hours', value: 'employee_working_hours' },
+            { label: 'Employee Contract Type', value: 'employee_contract_type' },
+            { label: 'Employee Company Mail', value: 'employee_company_mail' },
+        ];
+
+        const json2csvParser = new Parser({ fields, delimiter: '|' });
+        const csv = json2csvParser.parse(flatData);
+        res.header('Content-Type', 'text/csv');
+        res.attachment('overtimes.csv');
+        res.send(csv);
+    } catch (err) {
+        console.error('Error fetching overtimes', err);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
+// Data extraction - permission
+adminRoute.get('/permission/csv', async (req, res) => {
+    try {
+        const permissions = await Permission.find({}).populate('employee');
+
+        // Flatten the data structure for CSV export
+        const flatData = permissions.map(permission => ({
+            type: permission.type,
+            startDate: permission.startDate.getDate() + "-" + permission.startDate.getMonth() + "-" + permission.startDate.getFullYear(),
+            endDate: permission.endDate.getDate() + "-" + permission.endDate.getMonth() + "-" + permission.endDate.getFullYear(),
+            startHour: permission.startHour,
+            endHour: permission.endHour,
+            state: permission.state,
+            note: permission.note,
+
+            employee_name: permission.employee.name,
+            employee_last_name: permission.employee.last_name,
+            employee_phone_number: permission.employee.phone_number,
+            employee_department: permission.employee.department,
+            employee_role: permission.employee.role,
+            employee_working_hours: permission.employee.working_hours,
+            employee_contract_type: permission.employee.contract_type,
+            employee_company_mail: permission.employee.company_mail,
+        }));
+
+
+        const fields = [
+            { label: 'Type', value: 'type' },
+            { label: 'Start Date', value: 'startDate' },
+            { label: 'End Date', value: 'endDate' },
+            { label: 'Start Hour', value: 'startHour' },
+            { label: 'End Hour', value: 'endHour' },
+            { label: 'State', value: 'state' },
+            { label: 'Note', value: 'note' },
+
+            { label: 'Employee Name', value: 'employee_name' },
+            { label: 'Employee Last Name', value: 'employee_last_name' },
+            { label: 'Employee Phone Number', value: 'employee_phone_number' },
+            { label: 'Employee Department', value: 'employee_department' },
+            { label: 'Employee Role', value: 'employee_role' },
+            { label: 'Employee Working Hours', value: 'employee_working_hours' },
+            { label: 'Employee Contract Type', value: 'employee_contract_type' },
+            { label: 'Employee Company Mail', value: 'employee_company_mail' },
+        ];
+
+        const json2csvParser = new Parser({ fields, delimiter: '|' });
+        const csv = json2csvParser.parse(flatData);
+        res.header('Content-Type', 'text/csv');
+        res.attachment('permissions.csv');
+        res.send(csv);
+    } catch (err) {
+        console.error('Error fetching permissions', err);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
+
+// Data extraction - refund
+adminRoute.get('/refund/csv', async (req, res) => {
+    try {
+        const refunds = await Refund.find({}).populate('employee');
+
+        // Flatten the data structure for CSV export
+        const flatData = refunds.map(refund => ({
+            type: refund.type,
+            expense_date: refund.expense_date.getDate() + "-" + refund.expense_date.getMonth() + "-" + refund.expense_date.getFullYear(),
+            state: refund.state,
+            amount: refund.amount,
+            kilometers: refund.kilometers,
+            payment_type: refund.payment_type,
+            note: refund.note,
+
+            employee_name: refund.employee.name,
+            employee_last_name: refund.employee.last_name,
+            employee_phone_number: refund.employee.phone_number,
+            employee_department: refund.employee.department,
+            employee_role: refund.employee.role,
+            employee_working_hours: refund.employee.working_hours,
+            employee_contract_type: refund.employee.contract_type,
+            employee_company_mail: refund.employee.company_mail,
+        }));
+
+
+        const fields = [
+            { label: 'Type', value: 'type' },
+            { label: 'Expense Date', value: 'expense_date' },
+            { label: 'State', value: 'state' },
+            { label: 'Amount', value: 'amount' },
+            { label: 'Kilometers', value: 'kilometers' },
+            { label: 'Payment Type', value: 'payment_type' },
+            { label: 'Note', value: 'note' },
+
+            { label: 'Employee Name', value: 'employee_name' },
+            { label: 'Employee Last Name', value: 'employee_last_name' },
+            { label: 'Employee Phone Number', value: 'employee_phone_number' },
+            { label: 'Employee Department', value: 'employee_department' },
+            { label: 'Employee Role', value: 'employee_role' },
+            { label: 'Employee Working Hours', value: 'employee_working_hours' },
+            { label: 'Employee Contract Type', value: 'employee_contract_type' },
+            { label: 'Employee Company Mail', value: 'employee_company_mail' },
+        ];
+
+        const json2csvParser = new Parser({ fields, delimiter: '|' });
+        const csv = json2csvParser.parse(flatData);
+        res.header('Content-Type', 'text/csv');
+        res.attachment('refund.csv');
+        res.send(csv);
+    } catch (err) {
+        console.error('Error fetching refund', err);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
+
+// Data extraction - timeregister
+adminRoute.get('/timeregister/csv', async (req, res) => {
+    try {
+        const timeregisters = await TimeRegister.find({}).populate('employee').populate('client');
+
+        // Flatten the data structure for CSV export
+        const flatData = timeregisters.map(timeregister => ({
+            date: timeregister.date.getDate() + "-" + timeregister.date.getMonth() + "-" + timeregister.date.getFullYear(),
+            hours_number: timeregister.hours_number,
+
+            client_company_name: timeregister.client.company_name,
+            client_email: timeregister.client.email,
+
+            employee_name: timeregister.employee.name,
+            employee_last_name: timeregister.employee.last_name,
+            employee_phone_number: timeregister.employee.phone_number,
+            employee_department: timeregister.employee.department,
+            employee_role: timeregister.employee.role,
+            employee_working_hours: timeregister.employee.working_hours,
+            employee_contract_type: timeregister.employee.contract_type,
+            employee_company_mail: timeregister.employee.company_mail,
+        }));
+
+
+        const fields = [
+            { label: 'Date', value: 'date' },
+            { label: 'Hours Numbe', value: 'hours_number' },
+
+            { label: 'Client', value: 'client_company_name' },
+            { label: 'Client Email', value: 'client_email' },
+
+            { label: 'Employee Name', value: 'employee_name' },
+            { label: 'Employee Last Name', value: 'employee_last_name' },
+            { label: 'Employee Phone Number', value: 'employee_phone_number' },
+            { label: 'Employee Department', value: 'employee_department' },
+            { label: 'Employee Role', value: 'employee_role' },
+            { label: 'Employee Working Hours', value: 'employee_working_hours' },
+            { label: 'Employee Contract Type', value: 'employee_contract_type' },
+            { label: 'Employee Company Mail', value: 'employee_company_mail' },
+        ];
+
+        const json2csvParser = new Parser({ fields, delimiter: '|' });
+        const csv = json2csvParser.parse(flatData);
+        res.header('Content-Type', 'text/csv');
+        res.attachment('refund.csv');
+        res.send(csv);
+    } catch (err) {
+        console.error('Error fetching refund', err);
         res.status(500).send('Internal Server Error');
     }
 });

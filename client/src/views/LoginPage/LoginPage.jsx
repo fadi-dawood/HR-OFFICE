@@ -17,16 +17,17 @@ export default function LoginPage() {
     const [password, setPassword] = useState("");
     const [loginError, setLoginError] = useState("");
     const { setLoggedUserName, setLoggedUserLastname, setAdmin } = useContext(UserDataContext);
+    const { token, setToken , setAuthenticated} = useContext(AuthContext);
     const navigate = useNavigate();
-    const { token, setToken } = useContext(AuthContext);
 
     //^ if you are logged-in => go to the home page
     useEffect(() => {
         if (token) {
             navigate("/home");
+            console.log("hola");
+            return;
         }
-    }, []);
-
+    }, [token]);
 
     //^ show allert function
     function showAllert() {
@@ -36,6 +37,7 @@ export default function LoginPage() {
 
     //^ hundle login function
     async function handleLogin() {
+
         const payload = {
             email: email,
             password: password
@@ -54,7 +56,11 @@ export default function LoginPage() {
                 setLoggedUserLastname(userData.user.last_name);
                 setAdmin(userData.user.isAdmin);
                 setToken(`Bearer ${userData.token}`);
-                navigate("/home");
+                localStorage.setItem("token", userData.token);
+                localStorage.setItem("authenticated", true);
+                setAuthenticated(true);
+                //navigate("/home");
+                
             } else if (response.status == 404) {
                 setLoginError("Wrong Email!");
                 showAllert();
@@ -65,6 +71,7 @@ export default function LoginPage() {
                 setLoginError("Something went wrong!");
                 showAllert();
             }
+            return;
         } catch (err) {
             console.log(err);
         }

@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 
 
-export const UserDataContext = createContext("/");
+export const UserDataContext = createContext("");
 
 
 export default function UserDataContextProvider({ children }) {

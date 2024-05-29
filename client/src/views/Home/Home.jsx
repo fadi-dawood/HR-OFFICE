@@ -8,6 +8,7 @@ import { Row, Col } from 'react-bootstrap';
 
 export default function Home() {
     //^ Variables:
+
     const token = localStorage.getItem("token");
     const [posts, setPosts] = useState([]);
 
@@ -40,9 +41,9 @@ export default function Home() {
     const threeMonthsAgo = new Date(now);
     threeMonthsAgo.setMonth(now.getMonth() - 3);
 
-    const newPosts = posts.filter(post => new Date(post.createdAt) >= oneWeekAgo);
-    const recentPosts = posts.filter(post => new Date(post.createdAt) < oneWeekAgo && new Date(post.createdAt) >= threeMonthsAgo);
-    const oldPosts = posts.filter(post => new Date(post.createdAt) < threeMonthsAgo);
+    const newPosts = posts.filter(post => new Date(post.createdAt) >= oneWeekAgo).reverse();
+    const recentPosts = posts.filter(post => new Date(post.createdAt) < oneWeekAgo && new Date(post.createdAt) >= threeMonthsAgo).reverse();
+    const oldPosts = posts.filter(post => new Date(post.createdAt) < threeMonthsAgo).reverse();
 
     //^ Fetch - get all users:
     const [admins, setAdmins] = useState([]);
@@ -68,8 +69,11 @@ export default function Home() {
 
 
     useEffect(() => {
-        getAllPosts();
-        getAllEmployee();
+        console.log(token);
+        if (token) {
+            getAllPosts();
+            getAllEmployee();
+        }
     }, []);
 
 
@@ -86,14 +90,9 @@ export default function Home() {
                         <div className=' p-2'>
                             <Accordion defaultActiveKey="0">
 
-                                <Accordion.Item eventKey="1">
-                                    <Accordion.Header className='f-poetsen f-green'>This week:</Accordion.Header>
-                                    <Accordion.Body>
-                                        {newPosts.map((post, index) => (
-                                            <SinglePost key={post.id} post={post} index={index} />
-                                        ))}
-                                    </Accordion.Body>
-                                </Accordion.Item>
+                                {newPosts.map((post, index) => (
+                                    <SinglePost key={post.id} post={post} index={index} />
+                                ))}
 
                                 {recentPosts.length > 0 &&
                                     <Accordion.Item eventKey="1">

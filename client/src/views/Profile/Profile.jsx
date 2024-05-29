@@ -27,9 +27,6 @@ export default function
                                 <Nav.Item>
                                     <Nav.Link eventKey="third">Register working hours</Nav.Link>
                                 </Nav.Item>
-                                <Nav.Item>
-                                    <Nav.Link eventKey="fourth">Book resources</Nav.Link>
-                                </Nav.Item>
                             </Nav>
                         </Col>
                         <Col sm={9}>
@@ -43,9 +40,6 @@ export default function
                                 <Tab.Pane eventKey="third">
                                     <RegisterHours />
                                   
-                                </Tab.Pane>
-                                <Tab.Pane eventKey="fourth">
-
                                 </Tab.Pane>
                             </Tab.Content>
                         </Col>

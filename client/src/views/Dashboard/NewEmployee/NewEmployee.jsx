@@ -2,7 +2,6 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 import Container from "react-bootstrap/Container"
 import { getCountryDataList } from 'countries-list';
@@ -42,7 +41,7 @@ export default function NewEmployee() {
     const [contractType, setContractType] = useState();
     const [hireDate, setHireDate] = useState();
     const [contractExpiry, setContractExpiry] = useState();
-
+    const [isAdmin, setIsAdmin] = useState(false);
 
     //^-------------------------------------------------------------------------------------------------------------------------------------//
     // submit function
@@ -56,53 +55,53 @@ export default function NewEmployee() {
         }
         setValidated(true);
         //if (form.checkValidity() === true) {
-            const payload = {
-                name: name,
-                last_name: lastName,
-                personal_mail: personalMail,
-                date_of_birth: dateOfBirth,
-                phone_number: phoneNumber,
-                gender: gender,
-                birth_place: birthPlace,
-                nationality: nationality,
-                residency_permit_number: permitId,
-                identity_card_number: idNumber,
-                tax_id: taxId,
-                residence: {
-                    state: state,
-                    region: region,
-                    city: city,
-                    street: street,
-                    house_number: houseNumber,
-                    cap_number: capNumber
-                },
-                hire_date: hireDate,
-                department: department,
-                salary: salary,
-                contract_level: contractLevel,
-                role: role,
-                working_hours: workingHours,
-                contract_type: contractType,
-                contract_expiry: contractExpiry,
-                company_mail: companyMail
-            }
+        const payload = {
+            name: name,
+            last_name: lastName,
+            personal_mail: personalMail,
+            date_of_birth: dateOfBirth,
+            phone_number: phoneNumber,
+            gender: gender,
+            birth_place: birthPlace,
+            nationality: nationality,
+            residency_permit_number: permitId,
+            identity_card_number: idNumber,
+            tax_id: taxId,
+            residence: {
+                state: state,
+                region: region,
+                city: city,
+                street: street,
+                house_number: houseNumber,
+                cap_number: capNumber
+            },
+            hire_date: hireDate,
+            department: department,
+            salary: salary,
+            contract_level: contractLevel,
+            role: role,
+            working_hours: workingHours,
+            contract_type: contractType,
+            contract_expiry: contractExpiry,
+            company_mail: companyMail
+        }
 
-            try {
-                console.log(process.env.REACT_APP_API_URL);
-                const response = await fetch(`${process.env.REACT_APP_API_URL}/admin/newemployee`, {
-                    method: 'POST',
-                    headers: {
-                        "Authorization": token,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(payload)
-                });
-                if (response.ok) {
-                    window.location.reload();
-                }
-            } catch (error) {
-                console.error('Si è verificato un errore:', error);
+        try {
+            console.log(process.env.REACT_APP_API_URL);
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/admin/newemployee`, {
+                method: 'POST',
+                headers: {
+                    "Authorization": token,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+            if (response.ok) {
+                window.location.reload();
             }
+        } catch (error) {
+            console.error('Si è verificato un errore:', error);
+        }
 
         //}
     };
@@ -467,6 +466,22 @@ export default function NewEmployee() {
                                     placeholder="Contract expiry"
                                     required
                                 />
+                            </Form.Group>
+                        </Row>
+
+                        <Row className="mb-3">
+                            <Form.Group as={Col} md="2">
+                                <Form.Label>Admin Profile? *</Form.Label>
+                                <Form.Select
+                                    onChange={(e) => { setIsAdmin(e.target.value) }}
+                                    value={isAdmin}
+                                    data-bs-theme="dark"
+                                    required
+                                >
+                                    <option value="">Select one</option>
+                                    <option value={true}>Yes</option>
+                                    <option value={false}>No</option>
+                                </Form.Select>
                             </Form.Group>
                         </Row>
                     </div>

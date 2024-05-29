@@ -15,10 +15,6 @@ const clientSchema = new Schema(
             type: String,
             required: true
         },
-        address: {
-            type: String,
-            required: false
-        },
         country: {
             type: String,
             required: false
