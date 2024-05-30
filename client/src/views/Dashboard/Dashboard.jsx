@@ -7,6 +7,7 @@ import NewEmployee from './NewEmployee/NewEmployee.jsx';
 import NewClient from './NewClient/NewClient.jsx';
 import NewPost from './NewPost/NewPost.jsx';
 import DataExtraction from './DataExtraction/DataExtraction.jsx';
+import NewEvent from './NewEvent/NewEvent.jsx';
 
 
 
@@ -40,7 +41,12 @@ export default function Dashboard() {
                             </Nav>
                             <Nav variant="pills" className="flex-column">
                                 <Nav.Item>
-                                    <Nav.Link eventKey="fifth">Data extraction</Nav.Link>
+                                    <Nav.Link eventKey="fifth">Add new Event</Nav.Link>
+                                </Nav.Item>
+                            </Nav>
+                            <Nav variant="pills" className="flex-column">
+                                <Nav.Item>
+                                    <Nav.Link eventKey="sixth">Data extraction</Nav.Link>
                                 </Nav.Item>
                             </Nav>
                         </Col>
@@ -67,6 +73,11 @@ export default function Dashboard() {
                             </Tab.Content>
                             <Tab.Content>
                                 <Tab.Pane eventKey="fifth">
+                                    < NewEvent />
+                                </Tab.Pane>
+                            </Tab.Content>
+                            <Tab.Content>
+                                <Tab.Pane eventKey="sixth">
                                     <DataExtraction />
                                 </Tab.Pane>
                             </Tab.Content>

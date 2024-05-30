@@ -10,6 +10,7 @@ import Client from "../models/client.model.js";
 import TimeRegister from "../models/TimeRegister.js";
 import Post from "../models/posts.model.js";
 import { Parser } from 'json2csv';
+import Event from "../models/event.js";
 
 const adminRoute = Router();
 
@@ -243,6 +244,30 @@ adminRoute.post("/post", async (req, res, next) => {
     }
 });
 
+// add new event
+adminRoute.post("/event", async (req, res, next) => {
+    const { event_name, date, start_at, end_at, organizer, summary } = req.body;
+    try {
+        if (!event_name || !date || !start_at || !end_at || !organizer || !summary) {
+            res.status(400).send("all fields are requiered");
+        }
+        else {
+            const event = new Event({
+                event_name,
+                date,
+                start_at,
+                end_at,
+                organizer,
+                summary
+            })
+            await event.save();
+            res.status(201).send(event);
+        }
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+});
 
 // Data extraction - Employee
 adminRoute.get('/employee/csv', async (req, res) => {
@@ -535,6 +560,7 @@ adminRoute.get('/timeregister/csv', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+
 
 
 export default adminRoute;
