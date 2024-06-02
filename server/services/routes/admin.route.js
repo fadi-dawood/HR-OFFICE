@@ -10,7 +10,7 @@ import Client from "../models/client.model.js";
 import TimeRegister from "../models/TimeRegister.js";
 import Post from "../models/posts.model.js";
 import { Parser } from 'json2csv';
-import Event from "../models/event.js";
+import Event  from "../models/event.model.js";
 
 const adminRoute = Router();
 

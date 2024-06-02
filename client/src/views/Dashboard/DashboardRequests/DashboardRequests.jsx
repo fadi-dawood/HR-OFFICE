@@ -115,7 +115,7 @@ export default function DashboardRequests() {
     return (
         <div>
             <Tabs
-                defaultActiveKey="Over time mangment"
+                defaultActiveKey="Leave mangment"
                 id="uncontrolled-tab-example"
                 className="mb-3"
             >

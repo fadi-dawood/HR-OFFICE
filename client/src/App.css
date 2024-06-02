@@ -131,3 +131,7 @@
 .f-pink {
   color: #e44c79 !important;
 }
+
+.full-height{
+  height: 100vh;
+}

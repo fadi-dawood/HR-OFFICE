@@ -9,7 +9,7 @@ import Refund from "../models/refund.model.js";
 import Client from "../models/client.model.js";
 import TimeRegister from "../models/TimeRegister.js";
 import Post from "../models/posts.model.js";
-
+import Event  from "../models/event.model.js";
 
 
 
@@ -322,7 +322,21 @@ userRoute.get('/post', async (req, res, next) => {
 });
 
 
-
+// get all the events
+userRoute.get('/event', async (req, res, next) => {
+    try {
+        const events = await Event.find();
+console.log(events);
+        if (!events || events.length === 0) {
+            res.status(404).send("No posts are found!");
+            return;
+        }
+        res.status(201).send(events);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("An error occurred while fetching events.");
+    }
+});
 
 
 

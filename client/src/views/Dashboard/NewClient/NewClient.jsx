@@ -73,7 +73,7 @@ export default function NewClient() {
                 data-bs-theme="dark"
                 required
                 type="text"
-                placeholder="Enter th name of the client"
+                placeholder="Enter the name of the client"
               />
             </Form.Group>
             <Form.Group as={Col} md="6">
@@ -84,7 +84,7 @@ export default function NewClient() {
                 required
                 data-bs-theme="dark"
                 type="text"
-                placeholder="Enter th mail of the client"
+                placeholder="Enter the mail of the client"
               />
             </Form.Group>
           </Row>
@@ -97,7 +97,7 @@ export default function NewClient() {
                 data-bs-theme="dark"
                 required
                 type="text"
-                placeholder="Enter th phone number of the client"
+                placeholder="Enter the phone number of the client"
               />
             </Form.Group>
             <Form.Group as={Col} md="6">

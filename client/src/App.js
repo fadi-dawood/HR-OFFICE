@@ -13,6 +13,8 @@ import Home from './views/Home/Home.jsx';
 import Profile from './views/Profile/Profile.jsx';
 import Dashboard from './views/Dashboard/Dashboard.jsx';
 import ProtectedAuthAdminRoute from './components/ProtectedAuthAdminRoute/ProtectedAuthAdminRoute.jsx';
+import NotFoundPage from "./views/NotFoundPage/NotFoundPage.jsx"
+
 
 function App() {
   return (
@@ -24,6 +26,7 @@ function App() {
               {/* Routes without navbar and footer */}
               <Route path="/" element={<LoginPage />} />
               <Route path="/setpassword/:token" element={<SetPassword />} />
+              <Route path="/*" element={<NotFoundPage />} />
 
               <Route element={<ProtectedAuthRoute />}>
                 <Route path="/home" element={<Home />} />

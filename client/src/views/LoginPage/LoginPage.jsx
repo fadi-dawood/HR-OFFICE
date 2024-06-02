@@ -75,7 +75,7 @@ export default function LoginPage() {
 
     return (
         <div className=' bg-dark'>
-            <Container className='login-page d-flex justify-content-center'>
+            <Container className='login-page full-height d-flex justify-content-center'>
                 <Row>
                     <Col md="auto" className='d-flex flex-column justify-content-center align-items-center'>
                         <div>
