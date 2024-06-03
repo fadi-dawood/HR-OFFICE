@@ -132,6 +132,10 @@
   color: #e44c79 !important;
 }
 
-.full-height{
+.full-height {
   height: 100vh;
+}
+
+.fc-license-message {
+  display: none !important;
 }

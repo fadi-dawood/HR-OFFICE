@@ -8,7 +8,7 @@ export default function NotFoundPage() {
 
     return (
         <div className=' bg-dark full-height'>
-            <Container className='d-flex justify-content-center'>
+            <Container className='d-flex justify-content-center align-items-center h-100'>
                 <div className='d-flex h-100 justify-content-center align-items-center'>
                     <div className='d-flex flex-column justify-content-center w-100 align-items-center'>
                         <FontAwesomeIcon className='triangle' icon={faTriangleExclamation} />

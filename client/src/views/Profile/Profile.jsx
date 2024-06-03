@@ -14,32 +14,31 @@ export default function
         <div className='profile-page bg-dark py-5'>
             <Container fluid="sm">
                 <h2 className='mb-5'>{`Welcome back ${localStorage.getItem("loggedUserName")} ${localStorage.getItem("loggedUserLastname")}`}</h2>
-                <Tab.Container id="left-tabs-example" defaultActiveKey="third">
+                <Tab.Container id="left-tabs-example" defaultActiveKey="second">
                     <Row>
                         <Col sm={3}>
                             <Nav variant="pills" className="flex-column">
                                 <Nav.Item>
-                                    <Nav.Link eventKey="first">Personal information</Nav.Link>
+                                    <Nav.Link eventKey="first">Management of requests</Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
-                                    <Nav.Link eventKey="second">Management of requests</Nav.Link>
+                                    <Nav.Link eventKey="second">Register working hours</Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
-                                    <Nav.Link eventKey="third">Register working hours</Nav.Link>
+                                    <Nav.Link eventKey="third">Personal information</Nav.Link>
                                 </Nav.Item>
                             </Nav>
                         </Col>
                         <Col sm={9}>
                             <Tab.Content>
                                 <Tab.Pane eventKey="first">
-                                    <UserInfoSec />
-                                </Tab.Pane>
-                                <Tab.Pane eventKey="second">
                                     <AllRequest />
                                 </Tab.Pane>
-                                <Tab.Pane eventKey="third">
+                                <Tab.Pane eventKey="second">
                                     <RegisterHours />
-                                  
+                                </Tab.Pane>
+                                <Tab.Pane eventKey="third">
+                                    <UserInfoSec />
                                 </Tab.Pane>
                             </Tab.Content>
                         </Col>

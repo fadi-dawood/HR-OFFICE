@@ -38,16 +38,8 @@ export default function MyNavbar() {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href="/home">Home</Nav.Link>
-                        <Nav.Link href="/contacts">Contacts</Nav.Link>
-                        <NavDropdown title="Services" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.1">Time register</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.1">Leave Mangment</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.2">Expense Refund</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.3">Resorces Booking</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.4">Overtime</NavDropdown.Item>
-                        </NavDropdown>
+                        <Nav.Link href="/Home">Home</Nav.Link>
+                        <Nav.Link href="/profile">Your profile</Nav.Link>
                     </Nav>
                     <Nav>
                         <NavDropdown title={`${loggedUserName} ${loggedUserLastname}`} id="basic-nav-dropdown">

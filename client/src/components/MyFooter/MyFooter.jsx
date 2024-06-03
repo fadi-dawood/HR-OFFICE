@@ -21,11 +21,10 @@ export default function MyFooter() {
                 <Row>
                     <Col xs={6} md={3} className='my-3'>
                         <h4 className='mb-1'>Our services:</h4>
-                        <li><a href="...">Time Register</a></li>
-                        <li><a href="...">Leave Mangment</a></li>
-                        <li><a href="...">Expense Refund</a></li>
-                        <li><a href="...">Resorce Booking</a></li>
-                        <li><a href="...">Over Time</a></li>
+                        <li>Time Register</li>
+                        <li>Leave Mangment</li>
+                        <li>Expense Refund</li>
+                        <li>Over Time</li>
                     </Col>
                     <Col  xs={6} md={3} className='my-3'>
                         <h4 className='mb-1'>General Info:</h4>
@@ -37,9 +36,9 @@ export default function MyFooter() {
                     </Col>
                     <Col  xs={6} md={3} className='my-3'>
                         <h4 className='mb-1'>Privacy:</h4>
-                        <li><a href="...">Privacy</a></li>
-                        <li><a href="...">Governance e certificazioni</a></li>
-                        <li><a href="...">Cookies policy</a></li>
+                        <li><a href="privacy">Privacy</a></li>
+                        <li><a href="certificates">Governance e certificates</a></li>
+                        <li><a href="cookies">Cookies policy</a></li>
                     </Col>
                     <Col  xs={12} md={3} className='text-center my-3'>
                         <p  className='mb-1'>Follow us on:</p>

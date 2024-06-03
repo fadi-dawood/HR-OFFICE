@@ -3,6 +3,7 @@ import Container from "react-bootstrap/Container";
 import Accordion from 'react-bootstrap/Accordion';
 import SinglePost from '../../components/SinglePost/SinglePost';
 import { Row, Col } from 'react-bootstrap';
+import "./Home.css"
 
 export default function Home() {
     const token = localStorage.getItem("token");
@@ -112,11 +113,13 @@ export default function Home() {
                         <h3 className='mb-3'>All the announcements:</h3>
                         <div className='p-2'>
                             <Accordion defaultActiveKey="0">
+
                                 {newPosts.map((post, index) => (
                                     <SinglePost key={post.id} post={post} index={index} />
                                 ))}
+
                                 {recentPosts.length > 0 &&
-                                    <Accordion.Item eventKey="1">
+                                    <Accordion.Item eventKey="1" className='bg-dark border-0'>
                                         <Accordion.Header className='f-poetsen f-green'>Last 3 months</Accordion.Header>
                                         <Accordion.Body>
                                             {recentPosts.map((post, index) => (
@@ -125,10 +128,11 @@ export default function Home() {
                                         </Accordion.Body>
                                     </Accordion.Item>
                                 }
+
                                 {oldPosts.length > 0 &&
-                                    <Accordion.Item eventKey="2">
+                                    <Accordion.Item eventKey="2" className='bg-dark border-0'>
                                         <Accordion.Header className='f-poetsen f-green'>Old Posts</Accordion.Header>
-                                        <Accordion.Body>
+                                        <Accordion.Body >
                                             {oldPosts.map((post, index) => (
                                                 <SinglePost key={post.id} post={post} index={index} />
                                             ))}
@@ -146,7 +150,7 @@ export default function Home() {
                                     <div key={index}>
                                         <div className='d-flex justify-content-between align-items-center mb-3'>
                                             <div>
-                                                <h3 className='f-pink f-poetsen'>{event.event_name}</h3>
+                                                <h5 className='f-pink f-poetsen'>{event.event_name}</h5>
                                             </div>
                                             <div>
                                                 <p className='m-0 f-grey f-roboto-light'>
@@ -165,16 +169,16 @@ export default function Home() {
                         <div className='mt-5'>
                             <h3 className='mb-3'>Useful Contacts:</h3>
                             <div className='border p-2'>
-                                {admins.map((admin, i) => (
-                                    <div key={i}>
+                                {admins.map((admin, index) => (
+                                    <div key={index}>
                                         <div>
-                                            <span>{admin.role}</span>
+                                            <h5 className='f-pink f-poetsen'>{admin.role}</h5>
                                         </div>
                                         <div className='d-flex justify-content-between'>
                                             <p>{admin.name} {admin.last_name}</p>
                                             <p>{admin.company_mail}</p>
                                         </div>
-                                        <hr />
+                                        {index + 1 !== admins.length && <hr />}
                                     </div>
                                 ))}
                             </div>
