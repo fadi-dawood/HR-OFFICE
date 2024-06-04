@@ -9,6 +9,7 @@ import { UserDataContext } from '../../context/UserDataContextProvider.jsx';
 
 export default function MyNavbar() {
     const { loggedUserName, loggedUserLastname } = useContext(UserDataContext);
+    const { admin } = useContext(UserDataContext);
 
     useEffect(() => {
     }, [loggedUserName, loggedUserLastname]);
@@ -44,17 +45,17 @@ export default function MyNavbar() {
                     <Nav>
                         <NavDropdown title={`${loggedUserName} ${loggedUserLastname}`} id="basic-nav-dropdown">
                             <NavDropdown.Item href="profile">Profile</NavDropdown.Item>
-                            {(localStorage.getItem("admin") !== "") &&
+                            {admin &&
                                 < NavDropdown.Item href="dashboard">Dashboard</NavDropdown.Item>
                             }
-                        <NavDropdown.Divider />
-                        <NavDropdown.Item onClick={hundleLogout}>
-                            Log-out
-                        </NavDropdown.Item>
-                    </NavDropdown>
-                </Nav>
-            </Navbar.Collapse>
-        </Container>
+                            <NavDropdown.Divider />
+                            <NavDropdown.Item onClick={hundleLogout}>
+                                Log-out
+                            </NavDropdown.Item>
+                        </NavDropdown>
+                    </Nav>
+                </Navbar.Collapse>
+            </Container>
 
         </Navbar >
     );

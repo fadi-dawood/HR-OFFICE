@@ -21,7 +21,7 @@ export default function RegisteredHoursList({ registeredHours, deleteHour }) {
             </thead>
             <tbody>
               {registeredHours.map((element, index) => (
-                <tr>
+                <tr key={index}>
                   <td className=' align-middle bg-dark f-white border-0'>{element.client.company_name} </td>
                   <td className=' align-middle bg-dark f-white border-0'>{element.hours_number} h</td>
                   <td className=' align-middle bg-dark f-white border-0 '>

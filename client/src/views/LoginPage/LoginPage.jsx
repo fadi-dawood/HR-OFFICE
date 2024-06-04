@@ -24,7 +24,6 @@ export default function LoginPage() {
     useEffect(() => {
         if (token) {
             navigate("/home");
-            console.log("hola");
             return;
         }
     }, [token]);

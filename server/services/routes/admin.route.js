@@ -10,7 +10,7 @@ import Client from "../models/client.model.js";
 import TimeRegister from "../models/TimeRegister.js";
 import Post from "../models/posts.model.js";
 import { Parser } from 'json2csv';
-import Event  from "../models/event.model.js";
+import Event from "../models/event.model.js";
 
 const adminRoute = Router();
 
@@ -43,6 +43,52 @@ adminRoute.post("/newemployee", async (req, res, next) => {
 });
 
 
+// Endpoint to get an individual employee by their ID
+adminRoute.get("/employee/:id", async (req, res, next) => {
+    const employeeId = req.params.id;
+
+    if (!employeeId) {
+        return res.status(400).json({ message: "ID dipendente non valido" });
+    }
+
+    try {
+        const employee = await Employee.findById(employeeId);
+        if (employee) {
+            res.json(employee); 
+        } else {
+            res.status(404).json({ message: "Dipendente non trovato" });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Errore interno del server" });
+        next(err); 
+    }
+});
+
+
+
+// Update employee details
+adminRoute.put("/:id", async (req, res, next) => {
+    const employeeId = req.params.id;
+    if (employeeId) {
+        try {
+            const employee = await Employee.findById(employeeId);
+            if (employee) {
+                const updatedEmployee = await Employee.findByIdAndUpdate(req.params.id, req.body, { new: true });
+                res.send(updatedEmployee);
+            } else {
+                res.status(404).send("employee not found");
+            }
+        } catch (err) {
+            console.error(err);
+            res.status(500);
+            next();
+        }
+    } else {
+        res.status(400).send("Client ID is required");
+    }
+});
+
 
 // add new client
 adminRoute.post("/client", async (req, res, next) => {
@@ -70,6 +116,38 @@ adminRoute.post("/client", async (req, res, next) => {
         next(err);
     }
 });
+
+// Modify a client
+adminRoute.put("/client/:id", async (req, res, next) => {
+    const clientId = req.params.id;
+    if (clientId) {
+        const { company_name, email, phone_number, country } = req.body;
+        try {
+            const client = await Client.findById(clientId);
+            if (client) {
+                const updatedClient = await Client.findByIdAndUpdate(
+                    clientId,
+                    {
+                        company_name,
+                        email,
+                        phone_number,
+                        country
+                    },
+                    { new: true }
+                );
+                res.status(201).send(updatedClient);
+            } else {
+                res.status(404).send("Client not found");
+            }
+        } catch (err) {
+            console.error(err);
+            next(err);
+        }
+    } else {
+        res.status(400).send("Client ID is required");
+    }
+});
+
 
 
 

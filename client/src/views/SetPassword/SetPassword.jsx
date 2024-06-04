@@ -20,7 +20,7 @@ export default function SetPassword() {
 
     //^ if you are logged-in => go to the home page
     useEffect(() => {
-        if (token) {
+        if (localStorage.getItem("token")) {
             navigate("/home");
         }
     }, []);

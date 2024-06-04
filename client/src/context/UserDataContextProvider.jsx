@@ -17,7 +17,11 @@ export default function UserDataContextProvider({ children }) {
     useEffect(() => {
         localStorage.setItem("loggedUserName", loggedUserName);
         localStorage.setItem("loggedUserLastname", loggedUserLastname);
-        localStorage.setItem("admin", admin);
+        if (admin == true) {
+            localStorage.setItem("admin", true);
+        } else {
+            localStorage.setItem("admin", false);
+        }
     }, [loggedUserName, loggedUserLastname, admin]);
 
     const value = {

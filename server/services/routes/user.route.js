@@ -16,7 +16,7 @@ import Event  from "../models/event.model.js";
 const userRoute = Router();
 
 // Get all the employees
-userRoute.get("/", async (req, res, next) => {
+userRoute.get("/employees", async (req, res, next) => {
     try {
         const employees = await Employee.find();
         res.send(employees);

@@ -3,7 +3,7 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import "./RegisterHours.css";
 import { Row, Col } from 'react-bootstrap';
-import ClientsList from '../../../components/ClientsList/ClientsList.jsx';
+import ClientsListMenu from '../../../components/ClientsListMenu/ClientsListMenu.jsx';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import RegisteredHoursList from '../../../components/RegisterHoursList/RegisteredHoursList.jsx';
@@ -156,7 +156,7 @@ export default function RegisterHours() {
             <Row className="mb-3">
               <Form.Group as={Col} md="6" controlId="validationCustom03">
                 <Form.Label>Client</Form.Label>
-                <ClientsList
+                <ClientsListMenu
                   setClientId={setClientId}
                   clientId={clientId}
                 />

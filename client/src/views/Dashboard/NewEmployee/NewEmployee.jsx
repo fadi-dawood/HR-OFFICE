@@ -54,7 +54,7 @@ export default function NewEmployee() {
             event.stopPropagation();
         }
         setValidated(true);
-        //if (form.checkValidity() === true) {
+
         const payload = {
             name: name,
             last_name: lastName,
@@ -83,7 +83,8 @@ export default function NewEmployee() {
             working_hours: workingHours,
             contract_type: contractType,
             contract_expiry: contractExpiry,
-            company_mail: companyMail
+            company_mail: companyMail,
+            isAdmin: isAdmin
         }
 
         try {
@@ -103,7 +104,6 @@ export default function NewEmployee() {
             console.error('Si è verificato un errore:', error);
         }
 
-        //}
     };
 
     // show residence permit id input

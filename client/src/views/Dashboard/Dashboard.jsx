@@ -4,11 +4,11 @@ import Tab from 'react-bootstrap/Tab';
 import Nav from 'react-bootstrap/Nav';
 import DashboardRequests from './DashboardRequests/DashboardRequests.jsx';
 import NewEmployee from './NewEmployee/NewEmployee.jsx';
-import NewClient from './NewClient/NewClient.jsx';
+import NewClient from '../../components/NewClient/NewClient.jsx';
 import NewPost from './NewPost/NewPost.jsx';
 import DataExtraction from './DataExtraction/DataExtraction.jsx';
 import NewEvent from './NewEvent/NewEvent.jsx';
-
+import ClientsManagment from './ClientsManagment/ClientsManagment.jsx';
 
 
 export default function Dashboard() {
@@ -31,7 +31,7 @@ export default function Dashboard() {
                             </Nav>
                             <Nav variant="pills" className="flex-column">
                                 <Nav.Item>
-                                    <Nav.Link eventKey="third">Add new Client</Nav.Link>
+                                    <Nav.Link eventKey="third">Management of Clients</Nav.Link>
                                 </Nav.Item>
                             </Nav>
                             <Nav variant="pills" className="flex-column">
@@ -63,7 +63,7 @@ export default function Dashboard() {
                             </Tab.Content>
                             <Tab.Content>
                                 <Tab.Pane eventKey="third">
-                                    < NewClient />
+                                    < ClientsManagment />
                                 </Tab.Pane>
                             </Tab.Content>
                             <Tab.Content>

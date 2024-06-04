@@ -23,7 +23,7 @@ export default function NewClient() {
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
-    }else{
+    } else {
       addClientFetch();
     }
     setValidated(true);
@@ -62,7 +62,6 @@ export default function NewClient() {
 
   return (
     <div>
-      <Container>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
           <Row className="mb-3">
             <Form.Group as={Col} md="6">
@@ -117,7 +116,6 @@ export default function NewClient() {
           </Row>
           <Button className="mt-5" type="submit">Add Client</Button>
         </Form>
-      </Container>
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 
-export default function ClientsList({ setClientId, clientId }) {
+export default function ClientsListMenu({ setClientId, clientId }) {
     //^variables:
     const [clients, setClients] = useState([]);
     const token = localStorage.getItem("token");
