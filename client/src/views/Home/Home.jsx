@@ -112,14 +112,20 @@ export default function Home() {
                     <Col className="col-12 col-lg-8">
                         <h3 className='mb-3'>All the announcements:</h3>
                         <div className='p-2'>
-                            <Accordion defaultActiveKey="0">
-
-                                {newPosts.map((post, index) => (
-                                    <SinglePost key={post.id} post={post} index={index} />
-                                ))}
+                            <Accordion defaultActiveKey="1">
+                                {newPosts.length > 0 &&
+                                    <Accordion.Item eventKey="1" className='bg-dark border-0'>
+                                        <Accordion.Header className='f-poetsen f-green'>New Posts</Accordion.Header>
+                                        <Accordion.Body>
+                                            {newPosts.map((post, index) => (
+                                                <SinglePost key={post.id} post={post} index={index} />
+                                            ))}
+                                        </Accordion.Body>
+                                    </Accordion.Item>
+                                }
 
                                 {recentPosts.length > 0 &&
-                                    <Accordion.Item eventKey="1" className='bg-dark border-0'>
+                                    <Accordion.Item eventKey="2" className='bg-dark border-0'>
                                         <Accordion.Header className='f-poetsen f-green'>Last 3 months</Accordion.Header>
                                         <Accordion.Body>
                                             {recentPosts.map((post, index) => (
@@ -130,7 +136,7 @@ export default function Home() {
                                 }
 
                                 {oldPosts.length > 0 &&
-                                    <Accordion.Item eventKey="2" className='bg-dark border-0'>
+                                    <Accordion.Item eventKey="3" className='bg-dark border-0'>
                                         <Accordion.Header className='f-poetsen f-green'>Old Posts</Accordion.Header>
                                         <Accordion.Body >
                                             {oldPosts.map((post, index) => (

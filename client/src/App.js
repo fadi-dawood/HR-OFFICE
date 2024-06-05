@@ -15,7 +15,7 @@ import Dashboard from './views/Dashboard/Dashboard.jsx';
 import ProtectedAuthAdminRoute from './components/ProtectedAuthAdminRoute/ProtectedAuthAdminRoute.jsx';
 import NotFoundPage from "./views/NotFoundPage/NotFoundPage.jsx"
 
-
+ 
 function App() {
   return (
     <Router>

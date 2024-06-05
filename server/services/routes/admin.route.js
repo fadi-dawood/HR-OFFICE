@@ -1,8 +1,6 @@
 import { Router } from "express";
 import Employee from "../models/employee.model.js";
 import Permission from "../models/permission.model.js";
-import bcrypt from "bcryptjs";
-import { verifyJWT } from "../middleware/authMiddleware.js";
 import { setPasswordMail } from "../mail/setPassword.mail.js";
 import Overtime from "../models/overtime.mode.js";
 import Refund from "../models/refund.model.js";
@@ -13,6 +11,9 @@ import { Parser } from 'json2csv';
 import Event from "../models/event.model.js";
 
 const adminRoute = Router();
+
+
+//^--------------------------------------------------Employee Routes------------------------------------------------//
 
 // Post a new Employee profile
 adminRoute.post("/newemployee", async (req, res, next) => {
@@ -35,6 +36,7 @@ adminRoute.post("/newemployee", async (req, res, next) => {
 
             res.status(200).send("Employee created successfully");
         }
+
     } catch (err) {
         console.error(err);
         res.status(500);
@@ -43,7 +45,7 @@ adminRoute.post("/newemployee", async (req, res, next) => {
 });
 
 
-// Endpoint to get an individual employee by their ID
+// get an individual employee by their ID
 adminRoute.get("/employee/:id", async (req, res, next) => {
     const employeeId = req.params.id;
 
@@ -54,17 +56,17 @@ adminRoute.get("/employee/:id", async (req, res, next) => {
     try {
         const employee = await Employee.findById(employeeId);
         if (employee) {
-            res.json(employee); 
+            res.json(employee);
         } else {
             res.status(404).json({ message: "Dipendente non trovato" });
         }
+
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "Errore interno del server" });
-        next(err); 
+        next(err);
     }
 });
-
 
 
 // Update employee details
@@ -89,6 +91,10 @@ adminRoute.put("/:id", async (req, res, next) => {
     }
 });
 
+
+
+
+//^--------------------------------------------------Client Routes------------------------------------------------//
 
 // add new client
 adminRoute.post("/client", async (req, res, next) => {
@@ -116,6 +122,7 @@ adminRoute.post("/client", async (req, res, next) => {
         next(err);
     }
 });
+
 
 // Modify a client
 adminRoute.put("/client/:id", async (req, res, next) => {
@@ -151,12 +158,14 @@ adminRoute.put("/client/:id", async (req, res, next) => {
 
 
 
+//^--------------------------------------------------Requests Routes------------------------------------------------//
+
 // get all new permission requests for all users:
 adminRoute.get("/permission", async (req, res, next) => {
     try {
         const requestedPermissions = await Permission.find({
             state: "Requested"
-        }).populate('employee'); // also sent all the data of the employee;
+        }).populate('employee');
 
         res.send(requestedPermissions);
 
@@ -164,7 +173,6 @@ adminRoute.get("/permission", async (req, res, next) => {
         console.log(err);
     }
 });
-
 
 
 // approve/reject a permission:
@@ -206,7 +214,7 @@ adminRoute.get("/overtime", async (req, res, next) => {
     try {
         const requestedOvertime = await Overtime.find({
             state: "Requested"
-        }).populate('employee'); // also sent all the data of the employee;
+        }).populate('employee');
 
         res.send(requestedOvertime);
 
@@ -250,13 +258,12 @@ adminRoute.put("/overtime/:id", async (req, res, next) => {
 });
 
 
-
 // get all new refund requests for all users:
 adminRoute.get("/refund", async (req, res, next) => {
     try {
         const requestedRefund = await Refund.find({
             state: "Requested"
-        }).populate('employee'); // also sent all the data of the employee;
+        }).populate('employee');
 
         res.send(requestedRefund);
 
@@ -300,7 +307,11 @@ adminRoute.put("/refund/:id", async (req, res, next) => {
 });
 
 
-// add new client
+
+
+//^--------------------------------------------------Posts Routes------------------------------------------------//
+
+// add new post
 adminRoute.post("/post", async (req, res, next) => {
     const { title, content } = req.body;
     try {
@@ -321,6 +332,58 @@ adminRoute.post("/post", async (req, res, next) => {
         next(err);
     }
 });
+
+
+// Delete a post
+adminRoute.delete("/post/:id", async (req, res, next) => {
+    const postId = req.params.id;
+
+    if (!postId) {
+        return res.status(400).json({ message: "Invalid post ID" });
+    }
+
+    try {
+        const post = await Post.findByIdAndDelete(postId);
+        if (post) {
+            res.status(200).json({ message: "Post deleted" });
+        } else {
+            res.status(404).json({ message: "Post not found" });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Internal Server Error" });
+        next(err);
+    }
+});
+
+
+// Update a post
+adminRoute.put("/post/:id", async (req, res, next) => {
+    const postId = req.params.id;
+    const { title, content } = req.body;
+
+    if (!postId || !title || !content) {
+        return res.status(400).json({ message: "Post ID, title and content are required fields" });
+    }
+
+    try {
+        const post = await Post.findByIdAndUpdate(postId, { title, content }, { new: true });
+        if (post) {
+            res.status(200).json(post);
+        } else {
+            res.status(404).json({ message: "Post not found" });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Internal Server Error" });
+        next(err);
+    }
+});
+
+
+
+
+//^--------------------------------------------------Events Routes------------------------------------------------//
 
 // add new event
 adminRoute.post("/event", async (req, res, next) => {
@@ -347,8 +410,60 @@ adminRoute.post("/event", async (req, res, next) => {
     }
 });
 
+
+// Update an event
+adminRoute.put('/event/:id', async (req, res) => {
+    const { id } = req.params;
+    const { event_name, date, start_at, end_at, organizer, summary } = req.body;
+
+    try {
+        const event = await Event.findById(id);
+        if (!event) {
+            return res.status(404).json({ message: 'Event not found' });
+        }
+
+        event.event_name = event_name;
+        event.date = date;
+        event.start_at = start_at;
+        event.end_at = end_at;
+        event.organizer = organizer;
+        event.summary = summary;
+
+        await event.save();
+        res.json(event);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+});
+
+
+// Delete an event
+adminRoute.delete('/event/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const event = await Event.findById(id);
+        if (!event) {
+            return res.status(404).json({ message: 'Event not found' });
+        }
+        const eventToDelete = await Event.findByIdAndDelete(id);
+        if (eventToDelete) {
+            res.json({ message: 'Event deleted' });
+        } else {
+            res.status(500);
+        }
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+
+
+
+//^--------------------------------------------------Data extraction------------------------------------------------//
+
 // Data extraction - Employee
-adminRoute.get('/employee/csv', async (req, res) => {
+adminRoute.get('/employees/csv', async (req, res) => {
     try {
         const employees = await Employee.find({});
         const fields = [
@@ -383,7 +498,6 @@ adminRoute.get('/employee/csv', async (req, res) => {
 
         const json2csvParser = new Parser({ fields, delimiter: '|' });
         const csv = json2csvParser.parse(employees);
-        console.log(fields);
         res.header('Content-Type', 'text/csv');
         res.attachment('employees.csv');
         res.send(csv);
@@ -408,7 +522,6 @@ adminRoute.get('/client/csv', async (req, res) => {
 
         const json2csvParser = new Parser({ fields, delimiter: '|' });
         const csv = json2csvParser.parse(clients);
-        console.log(fields);
         res.header('Content-Type', 'text/csv');
         res.attachment('clients.csv');
         res.send(csv);
@@ -417,7 +530,6 @@ adminRoute.get('/client/csv', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
-
 
 
 // Data extraction - overtime
@@ -528,7 +640,6 @@ adminRoute.get('/permission/csv', async (req, res) => {
 });
 
 
-
 // Data extraction - refund
 adminRoute.get('/refund/csv', async (req, res) => {
     try {
@@ -584,7 +695,6 @@ adminRoute.get('/refund/csv', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
-
 
 
 // Data extraction - timeregister

@@ -17,9 +17,9 @@ export default function MyNavbar() {
 
     //^ Log-out function
     function hundleLogout() {
+        localStorage.removeItem("admin");
         localStorage.removeItem("token");
         localStorage.removeItem("loggedUserLastname");
-        localStorage.removeItem("admin");
         localStorage.removeItem("loggedUserName");
         localStorage.removeItem("authenticated");
         window.location.reload();
@@ -45,7 +45,7 @@ export default function MyNavbar() {
                     <Nav>
                         <NavDropdown title={`${loggedUserName} ${loggedUserLastname}`} id="basic-nav-dropdown">
                             <NavDropdown.Item href="profile">Profile</NavDropdown.Item>
-                            {admin &&
+                            {localStorage.getItem("admin") == "true" &&
                                 < NavDropdown.Item href="dashboard">Dashboard</NavDropdown.Item>
                             }
                             <NavDropdown.Divider />

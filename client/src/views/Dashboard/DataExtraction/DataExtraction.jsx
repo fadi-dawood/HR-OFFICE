@@ -41,11 +41,11 @@ export default function DataExtraction() {
                 <div key={`default-radio`} className="mb-3">
                     <Form.Check
                         type="radio"
-                        id={`employee`}
-                        label={`Employee Data`}
-                        value={"employee"}
-                        checked={dataType === "employee"}
-                        onChange={() => setDataType("employee")}
+                        id={`employees`}
+                        label={`Employees Data`}
+                        value={"employees"}
+                        checked={dataType === "employees"}
+                        onChange={() => setDataType("employees")}
                     />
                     <Form.Check
                         type="radio"

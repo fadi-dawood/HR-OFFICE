@@ -1,19 +1,19 @@
 import { Router } from "express";
 import Employee from "../models/employee.model.js";
 import Permission from "../models/permission.model.js";
-import bcrypt from "bcryptjs";
-import { verifyJWT } from "../middleware/authMiddleware.js";
-import { setPasswordMail } from "../mail/setPassword.mail.js";
 import Overtime from "../models/overtime.mode.js";
 import Refund from "../models/refund.model.js";
 import Client from "../models/client.model.js";
 import TimeRegister from "../models/TimeRegister.js";
 import Post from "../models/posts.model.js";
-import Event  from "../models/event.model.js";
+import Event from "../models/event.model.js";
 
 
 
 const userRoute = Router();
+
+
+//^--------------------------------------------------Get General Data------------------------------------------------//
 
 // Get all the employees
 userRoute.get("/employees", async (req, res, next) => {
@@ -30,7 +30,7 @@ userRoute.get("/employees", async (req, res, next) => {
 // Get all the admins
 userRoute.get("/admins", async (req, res, next) => {
     try {
-        const admins = await Employee.find({ isAdmin: true});
+        const admins = await Employee.find({ isAdmin: true });
         res.send(admins);
     } catch (err) {
         console.error(err);
@@ -38,6 +38,57 @@ userRoute.get("/admins", async (req, res, next) => {
         next();
     }
 });
+
+
+// get all clients 
+userRoute.get("/clients", async (req, res, next) => {
+    try {
+        let clientsList = [];
+        clientsList = await Client.find();
+        res.status(201).send(clientsList);
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+});
+
+
+// get all the posts
+userRoute.get('/post', async (req, res, next) => {
+    try {
+        const posts = await Post.find().populate('employee');
+
+        if (!posts || posts.length === 0) {
+            res.status(404).send("No posts are found!");
+            return;
+        }
+        res.status(201).send(posts);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("An error occurred while fetching posts.");
+    }
+});
+
+
+// get all the events
+userRoute.get('/event', async (req, res, next) => {
+    try {
+        const events = await Event.find();
+        if (!events || events.length === 0) {
+            res.status(404).send("No posts are found!");
+            return;
+        }
+        res.status(201).send(events);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("An error occurred while fetching events.");
+    }
+});
+
+
+
+
+//^--------------------------------------------------Logged User Data------------------------------------------------//
 
 // Get the logged spesific employee
 userRoute.get("/me", async (req, res, next) => {
@@ -85,6 +136,88 @@ userRoute.put("/modify", async (req, res, next) => {
 });
 
 
+
+
+//^--------------------------------------------------Get All Requests------------------------------------------------//
+
+// get alla permissin
+userRoute.get("/permission", async (req, res, next) => {
+    try {
+        const employeeId = req.user.id;
+        let permissionList = [];
+        if (employeeId) {
+            permissionList = await Permission.find({ 'employee': employeeId });
+        }
+        res.status(201).send(permissionList);
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+});
+
+
+// get all overtime requests
+userRoute.get("/overtime", async (req, res, next) => {
+    try {
+        const employeeId = req.user.id;
+        let overTimeList = [];
+        if (employeeId) {
+            overTimeList = await Overtime.find({ 'employee': employeeId });
+        }
+        res.status(201).send(overTimeList);
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+});
+
+
+// get all Refund requests
+userRoute.get("/refund", async (req, res, next) => {
+    try {
+        const employeeId = req.user.id;
+        let refundList = [];
+        if (employeeId) {
+            refundList = await Refund.find({ 'employee': employeeId });
+            res.status(201).send(refundList);
+        }
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+});
+
+
+// get all registered hours
+userRoute.get("/hours", async (req, res, next) => {
+    try {
+        const employeeId = req.user.id;
+        const { date } = req.query;
+        let timeregisterList = [];
+        if (employeeId) {
+            if (date) {
+                timeregisterList = await TimeRegister.find(
+                    {
+                        employee: employeeId,
+                        date: date
+                    }
+                ).populate('client'); // also sent all the data of the client
+            } else {
+                return res.status(400).json({ message: "Date is required." });
+            }
+            res.status(201).send(timeregisterList);
+        }
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+});
+
+
+
+
+//^--------------------------------------------------New Request------------------------------------------------//
+
 // New Permission request
 userRoute.post("/permission", async (req, res, next) => {
     try {
@@ -115,24 +248,6 @@ userRoute.post("/permission", async (req, res, next) => {
 });
 
 
-
-// get alla permissin
-userRoute.get("/permission", async (req, res, next) => {
-    try {
-        const employeeId = req.user.id;
-        let permissionList = [];
-        if (employeeId) {
-            permissionList = await Permission.find({ 'employee': employeeId });
-        }
-        res.status(201).send(permissionList);
-    } catch (err) {
-        console.error(err);
-        next(err);
-    }
-});
-
-
-
 // New Overtime request
 userRoute.post("/overtime", async (req, res, next) => {
     try {
@@ -153,21 +268,6 @@ userRoute.post("/overtime", async (req, res, next) => {
         await newovertime.save();
 
         res.status(201).json({ message: "Overtime request created successfully.", overtime: newovertime });
-    } catch (err) {
-        console.error(err);
-        next(err);
-    }
-});
-
-// get all overtime requests
-userRoute.get("/overtime", async (req, res, next) => {
-    try {
-        const employeeId = req.user.id;
-        let overTimeList = [];
-        if (employeeId) {
-            overTimeList = await Overtime.find({ 'employee': employeeId });
-        }
-        res.status(201).send(overTimeList);
     } catch (err) {
         console.error(err);
         next(err);
@@ -204,64 +304,11 @@ userRoute.post("/refund", async (req, res, next) => {
     }
 });
 
-// get all Refund requests
-userRoute.get("/refund", async (req, res, next) => {
-    try {
-        const employeeId = req.user.id;
-        let refundList = [];
-        if (employeeId) {
-            refundList = await Refund.find({ 'employee': employeeId });
-            res.status(201).send(refundList);
-        }
-    } catch (err) {
-        console.error(err);
-        next(err);
-    }
-});
-
-
-// get all clients 
-userRoute.get("/clients", async (req, res, next) => {
-    try {
-        let clientsList = [];
-        clientsList = await Client.find();
-        res.status(201).send(clientsList);
-    } catch (err) {
-        console.error(err);
-        next(err);
-    }
-});
-
-// get all registered hours
-userRoute.get("/hours", async (req, res, next) => {
-    try {
-        const employeeId = req.user.id;
-        const { date } = req.query;
-        let timeregisterList = [];
-        if (employeeId) {
-            if (date) {
-                timeregisterList = await TimeRegister.find(
-                    {
-                        employee: employeeId,
-                        date: date
-                    }
-                ).populate('client'); // also sent all the data of the client
-            } else {
-                return res.status(400).json({ message: "Date is required." });
-            }
-            res.status(201).send(timeregisterList);
-        }
-    } catch (err) {
-        console.error(err);
-        next(err);
-    }
-});
 
 // register new hour
 userRoute.post("/hours", async (req, res, next) => {
     try {
         const { date, hours_number, client } = req.body;
-        // console.log(date, hours_number, client);
         if (!date || !hours_number || !client) {
             return res.status(400).json({ message: "Date, hours_number and client are required." });
         }
@@ -283,6 +330,7 @@ userRoute.post("/hours", async (req, res, next) => {
     }
 });
 
+
 // delete a registered hour
 userRoute.delete('/hours/:id', async (req, res, next) => {
     try {
@@ -303,41 +351,6 @@ userRoute.delete('/hours/:id', async (req, res, next) => {
 
     }
 });
-
-
-// get all the posts
-userRoute.get('/post', async (req, res, next) => {
-    try {
-        const posts = await Post.find().populate('employee');
-
-        if (!posts || posts.length === 0) {
-            res.status(404).send("No posts are found!");
-            return;
-        }
-        res.status(201).send(posts);
-    } catch (err) {
-        console.error(err);
-        res.status(500).send("An error occurred while fetching posts.");
-    }
-});
-
-
-// get all the events
-userRoute.get('/event', async (req, res, next) => {
-    try {
-        const events = await Event.find();
-console.log(events);
-        if (!events || events.length === 0) {
-            res.status(404).send("No posts are found!");
-            return;
-        }
-        res.status(201).send(events);
-    } catch (err) {
-        console.error(err);
-        res.status(500).send("An error occurred while fetching events.");
-    }
-});
-
 
 
 export default userRoute;

@@ -19,7 +19,7 @@ export default function LoginPage() {
     const { setLoggedUserName, setLoggedUserLastname, setAdmin } = useContext(UserDataContext);
     const { token, setToken } = useContext(AuthContext);
     const navigate = useNavigate();
-
+ 
     //^ if you are logged-in => go to the home page
     useEffect(() => {
         if (token) {

@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken";
-import Employee from "../models/employee.model.js"
-import { setPasswordMail } from "../mail/setPassword.mail.js";
+import Employee from "../models/employee.model.js";
 
 // generate the token
 export const generateJWT = (payload) => {

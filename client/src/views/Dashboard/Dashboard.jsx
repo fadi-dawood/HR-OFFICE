@@ -4,11 +4,10 @@ import Tab from 'react-bootstrap/Tab';
 import Nav from 'react-bootstrap/Nav';
 import DashboardRequests from './DashboardRequests/DashboardRequests.jsx';
 import NewEmployee from './NewEmployee/NewEmployee.jsx';
-import NewClient from '../../components/NewClient/NewClient.jsx';
-import NewPost from './NewPost/NewPost.jsx';
 import DataExtraction from './DataExtraction/DataExtraction.jsx';
-import NewEvent from './NewEvent/NewEvent.jsx';
 import ClientsManagment from './ClientsManagment/ClientsManagment.jsx';
+import PostManagment from './PostManagment/PostManagment.jsx';
+import EventManagment from './EventManagment/EventManagment.jsx';
 
 
 export default function Dashboard() {
@@ -36,12 +35,12 @@ export default function Dashboard() {
                             </Nav>
                             <Nav variant="pills" className="flex-column">
                                 <Nav.Item>
-                                    <Nav.Link eventKey="fourth">Add new Post</Nav.Link>
+                                    <Nav.Link eventKey="fourth">Management of posts</Nav.Link>
                                 </Nav.Item>
                             </Nav>
                             <Nav variant="pills" className="flex-column">
                                 <Nav.Item>
-                                    <Nav.Link eventKey="fifth">Add new Event</Nav.Link>
+                                    <Nav.Link eventKey="fifth">Management of Events</Nav.Link>
                                 </Nav.Item>
                             </Nav>
                             <Nav variant="pills" className="flex-column">
@@ -68,12 +67,12 @@ export default function Dashboard() {
                             </Tab.Content>
                             <Tab.Content>
                                 <Tab.Pane eventKey="fourth">
-                                    < NewPost />
+                                    < PostManagment />
                                 </Tab.Pane>
                             </Tab.Content>
                             <Tab.Content>
                                 <Tab.Pane eventKey="fifth">
-                                    < NewEvent />
+                                    < EventManagment />
                                 </Tab.Pane>
                             </Tab.Content>
                             <Tab.Content>

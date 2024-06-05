@@ -1,0 +1,13 @@
+.edit-post-modal label {
+    margin-top: 5px;
+}
+
+.edit-post-modal div,
+.edit-post-modal * {
+    color: black;
+}
+
+.edit-post-modal .btn-success,
+.edit-post-modal .btn-secondary {
+    color: white;
+}

@@ -29,6 +29,7 @@ signRoute.post("/setpassword", async (req, res) => {
     }
 });
 
+
 // login
 signRoute.post("/login", async (req, res, next) => {
     try {
@@ -39,7 +40,6 @@ signRoute.post("/login", async (req, res, next) => {
                 const isPasswordMatching = await bcrypt.compare(password, foundUser.password);
                 if (isPasswordMatching) {
                     const token = await generateJWT({ _id: foundUser._id });
-                    console.log(token)
                     res.status(200).send({ user: foundUser, token: token });
                 } else {
                     res.status(400).send("Password is not correct!")
