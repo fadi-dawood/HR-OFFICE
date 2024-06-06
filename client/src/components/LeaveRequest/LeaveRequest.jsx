@@ -6,6 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Alert from 'react-bootstrap/Alert';
 
 export default function LeaveRequest() {
+
     //^ Validation form
     const [validated, setValidated] = useState(false);
     const handleSubmit = (event) => {
@@ -17,6 +18,8 @@ export default function LeaveRequest() {
         setValidated(true);
     };
 
+
+
     //^ Variables
     const [type, setType] = useState("");
     const [startDate, setStartDate] = useState("");
@@ -26,6 +29,8 @@ export default function LeaveRequest() {
     const [note, setNote] = useState("");
     const [alertMsg, setAlertMsg] = useState("");
     const token = localStorage.getItem("token");
+
+
 
     //^ Request Leave - call function
     async function askPermission() {
@@ -64,6 +69,9 @@ export default function LeaveRequest() {
 
     }
 
+
+
+    
     return (
         <div>
             <h1 className='mb-4'>New leave request:</h1>

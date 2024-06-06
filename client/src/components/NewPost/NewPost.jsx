@@ -2,12 +2,10 @@ import React, { useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import "./NewPost.css";
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-
-
 import Alert from 'react-bootstrap/Alert';
+import "./NewPost.css";
 
 
 export default function NewPost() {
@@ -16,14 +14,15 @@ export default function NewPost() {
     const [title, setTitle] = useState("");
     const [text, setText] = useState("");
     const [errMsg, setErrMsg] = useState("");
-
     const token = localStorage.getItem("token");
 
-    //^ Check that the form is competed
+
+
+
+    //^ Check that the form is competed (Submit Function)
     const [validated, setValidated] = useState(false);
     const handleSubmit = (event) => {
         event.preventDefault();
-
         const form = event.currentTarget;
         if (form.checkValidity() === false || !text) {
             event.stopPropagation();
@@ -37,7 +36,8 @@ export default function NewPost() {
 
 
 
-    //^ fetch a new post:
+
+    //^ Post a new post - fetch function:
     const sendNewPost = async () => {
         const payload = {
             title: title,
@@ -71,6 +71,7 @@ export default function NewPost() {
         }
 
     };
+
 
 
 

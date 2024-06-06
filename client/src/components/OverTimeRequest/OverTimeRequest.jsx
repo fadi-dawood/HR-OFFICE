@@ -85,7 +85,7 @@ export default function OverTimeRequest() {
                             type="number"
                             max={8}
                             min={1}
-                            placeholder="Last name"
+                            placeholder="Number of hours"
                         />
                         <Form.Control.Feedback type="invalid">
                             Please enter a valid number of hours.

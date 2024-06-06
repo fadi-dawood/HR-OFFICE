@@ -1,10 +1,9 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
-import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import './App.css';
 
-// import views
+//^ import views
 import LoginPage from './views/LoginPage/LoginPage';
-import NewEmployee from './views/Dashboard/NewEmployee/NewEmployee.jsx';
 import SetPassword from './views/SetPassword/SetPassword';
 import UserDataContextProvider from './context/UserDataContextProvider.jsx';
 import AuthContextProvider from './context/AuthContextProvider.jsx';
@@ -15,7 +14,9 @@ import Dashboard from './views/Dashboard/Dashboard.jsx';
 import ProtectedAuthAdminRoute from './components/ProtectedAuthAdminRoute/ProtectedAuthAdminRoute.jsx';
 import NotFoundPage from "./views/NotFoundPage/NotFoundPage.jsx"
 
- 
+
+
+
 function App() {
   return (
     <Router>
@@ -28,6 +29,8 @@ function App() {
               <Route path="/setpassword/:token" element={<SetPassword />} />
               <Route path="/*" element={<NotFoundPage />} />
 
+
+              {/* Routes with navbar and footer */}
               <Route element={<ProtectedAuthRoute />}>
                 <Route path="/home" element={<Home />} />
                 <Route path="/profile" element={<Profile />} />

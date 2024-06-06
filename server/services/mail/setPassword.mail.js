@@ -17,7 +17,7 @@ export const setPasswordMail = async (employee) => {
     });
 
     try {
-        // Creazte the token JWT
+        // Create the token JWT
         const token = await generateJWT({ id: employee._id });
 
         // Create the link to set the password

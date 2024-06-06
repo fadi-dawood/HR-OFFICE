@@ -6,8 +6,14 @@ import Form from 'react-bootstrap/Form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Container } from 'react-bootstrap';
-import "./EventListTable.css"
+import "./EventListTable.css";
+
+
+
+
 export default function EventListTable() {
+
+    //^ Variables
     const [events, setEvents] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [editingEventId, setEditingEventId] = useState(null);
@@ -21,6 +27,10 @@ export default function EventListTable() {
     });
     const token = localStorage.getItem("token");
 
+
+
+
+    //^ Get All Events - Fetch
     async function getAllEvents() {
         try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/user/event`, {
@@ -41,6 +51,9 @@ export default function EventListTable() {
         }
     }
 
+
+
+    //^ Update an Event - Fetch
     async function updateEvent(eventId) {
         try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/admin/event/${eventId}`, {
@@ -62,6 +75,10 @@ export default function EventListTable() {
         }
     }
 
+
+
+
+    //^ Delete an Event - Fetch
     async function deleteEvent(eventId) {
         try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/admin/event/${eventId}`, {
@@ -81,8 +98,14 @@ export default function EventListTable() {
         }
     }
 
+
+
+    //^ UseEffect
     useEffect(() => { getAllEvents(); }, []);
 
+
+
+    //^ Open Modal
     const handleEditClick = (event) => {
         setEditingEventId(event._id);
         setUpdatedEvent({
@@ -96,16 +119,27 @@ export default function EventListTable() {
         setShowModal(true);
     };
 
+
+
+
+    //^ preparing the updated info in  
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setUpdatedEvent({ ...updatedEvent, [name]: value });
     };
 
+
+
+
+    //^ Close Modal
     const handleCloseModal = () => {
         setShowModal(false);
         setEditingEventId(null);
     };
 
+
+
+    
     return (
         <Container fluid="sm">
             <h3 className='f-poetsen f-green'>List of Events: </h3>

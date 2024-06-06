@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import "./SetPassword.css"
-import logoImg from "../../assets/logo/png/logo-no-background.png"
-import Container from 'react-bootstrap/esm/Container'
+import React, { useEffect, useState } from 'react';
+import logoImg from "../../assets/logo/png/logo-no-background.png";
+import Container from 'react-bootstrap/esm/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
@@ -9,14 +8,19 @@ import Form from 'react-bootstrap/Form';
 import { useParams } from 'react-router-dom';
 import Alert from 'react-bootstrap/Alert';
 import { useNavigate } from 'react-router-dom';
+import "./SetPassword.css";
 
 
 export default function SetPassword() {
+
     //^Variables
     const [pass, setPass] = useState("");
     const [passVerify, setPassVerify] = useState("");
     const { token } = useParams();
     const navigate = useNavigate()
+
+
+
 
     //^ if you are logged-in => go to the home page
     useEffect(() => {
@@ -24,6 +28,9 @@ export default function SetPassword() {
             navigate("/home");
         }
     }, []);
+
+
+
 
     //^ Make the call to set the password
     async function handleSetPass() {
@@ -57,6 +64,9 @@ export default function SetPassword() {
         };
     }
 
+
+
+    
     return (
         <div className=' bg-dark'>
             <Container className='set-pass-page d-flex justify-content-center'>

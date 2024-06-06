@@ -6,8 +6,13 @@ import { faCheck, faX } from '@fortawesome/free-solid-svg-icons';
 
 
 export default function AllRefundRequests(props) {
+
+    //^ Variables
     const { allRefundRequests, newRefundRequests, setRefundErrMsg, refundErrMsg } = props;
     const token = localStorage.getItem("token");
+
+
+
 
     //^ Fetch function - approve/reject a permission request
     async function answerRefund(requestId, state) {
@@ -35,6 +40,7 @@ export default function AllRefundRequests(props) {
 
 
 
+    
     return (
         <div>
             {refundErrMsg && <p className='f-red'>{refundErrMsg}</p>}

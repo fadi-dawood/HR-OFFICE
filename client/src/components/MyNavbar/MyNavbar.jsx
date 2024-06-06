@@ -2,17 +2,23 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import "./MyNavbar.css"
-import logoImg from "../../assets/logo/png/logo-no-background.png"
+import logoImg from "../../assets/logo/png/logo-no-background.png";
 import { useContext, useEffect } from 'react';
 import { UserDataContext } from '../../context/UserDataContextProvider.jsx';
+import "./MyNavbar.css";
 
 export default function MyNavbar() {
+
+    //^ Variables
     const { loggedUserName, loggedUserLastname } = useContext(UserDataContext);
     const { admin } = useContext(UserDataContext);
 
+
+
+    //^ useEffect
     useEffect(() => {
     }, [loggedUserName, loggedUserLastname]);
+
 
 
     //^ Log-out function
@@ -24,6 +30,8 @@ export default function MyNavbar() {
         localStorage.removeItem("authenticated");
         window.location.reload();
     };
+
+
 
     return (
         <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary" bg="dark" data-bs-theme="dark">

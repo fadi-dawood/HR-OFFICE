@@ -2,11 +2,15 @@ import React, { useEffect, useState } from 'react';
 import {  Row, Col } from "react-bootstrap";
 import UserInfoItem from '../../../components/UserInfoItem/UserInfoItem.jsx';
 
+
 export default function UserInfoSec() {
+
     //^ Variables
     const token = localStorage.getItem("token");
     const [userDataObj, setUserDataObj] = useState({});
     const [userDataArr, setUserDataArr] = useState([]);
+
+
 
 
     //^ Call the server to GET all data of user
@@ -66,9 +70,14 @@ export default function UserInfoSec() {
         }
     };
 
+
+
+    //^ Use Effect
     useEffect(() => {
         getUserInfo();
     }, []);
+
+
 
 
     return (

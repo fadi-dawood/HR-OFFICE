@@ -3,10 +3,11 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import Container from "react-bootstrap/Container"
+import Container from "react-bootstrap/Container";
 import { getCountryDataList } from 'countries-list';
 
 export default function NewEmployee() {
+
     //^-------------------------------------------------------------------------------------------------------------------------------------//
     //^ all form variables
     // personal variables:
@@ -42,6 +43,10 @@ export default function NewEmployee() {
     const [hireDate, setHireDate] = useState();
     const [contractExpiry, setContractExpiry] = useState();
     const [isAdmin, setIsAdmin] = useState(false);
+
+
+
+
 
     //^-------------------------------------------------------------------------------------------------------------------------------------//
     // submit function
@@ -106,7 +111,7 @@ export default function NewEmployee() {
 
     };
 
-    // show residence permit id input
+    // show residence permit input for the user
     function checkNationality(event) {
         const newNationality = event.target.value;
         setNationality(newNationality);
@@ -116,6 +121,13 @@ export default function NewEmployee() {
             document.getElementById("permit-number-input").classList.add("d-none");
         }
     };
+
+
+
+
+
+
+
 
     return (
         <div className='bg-dark py-5'>

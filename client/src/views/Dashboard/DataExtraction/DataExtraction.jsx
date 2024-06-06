@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 export default function DataExtraction() {
+
+    //^ Variable
     const token = localStorage.getItem("token");
     const [dataType, setDataType] = useState("employee");
 
+
+
+    //^ Download CSV File - Fetch funcyion
     async function downloadCSV() {
         try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/admin/${dataType}/csv`, {
@@ -34,6 +40,9 @@ export default function DataExtraction() {
         }
     }
 
+
+
+    
     return (
         <div>
             <h3 className="my-4 ms-2 f-poetsen f-green">What data do you need to download?</h3>
@@ -89,9 +98,9 @@ export default function DataExtraction() {
                     />
                 </div>
             </Form>
-            <button className='f-black' onClick={downloadCSV}>
+            <Button variant="success" onClick={downloadCSV}>
                 Extract Data
-            </button>
+            </Button>
         </div>
     );
 }

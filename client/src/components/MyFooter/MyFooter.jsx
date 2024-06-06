@@ -1,6 +1,6 @@
 import React from 'react';
 import Container from 'react-bootstrap/esm/Container';
-import logoImg from "../../assets/logo/png/logo-no-background.png"
+import logoImg from "../../assets/logo/png/logo-no-background.png";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

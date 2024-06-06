@@ -6,7 +6,6 @@ import MyFooter from '../MyFooter/MyFooter';
 
 export default function ProtectedAuthRoute() {
     const { authenticated } = useContext(AuthContext);
-    console.log(typeof authenticated, authenticated);
     return (
         <>
             <MyNavbar />

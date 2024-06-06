@@ -2,9 +2,12 @@ import React from 'react';
 import Card from 'react-bootstrap/Card';
 
 
-
 export default function SinglePost(props) {
+    //^ Props
     const { index, post } = props;
+
+
+    
     return (
         <div>
             <Card text='light' className='my-4 bg-dark border'>

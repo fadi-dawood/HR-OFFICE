@@ -9,6 +9,7 @@ import DataArchive from '../../../components/DataArchive/DataArchive.jsx';
 
 
 export default function AllRequest() {
+
     //^ Variables
     const [permissions, setPermissions] = useState([]);
     const [overTimeRequests, setOverTimeRequests] = useState([]);
@@ -17,6 +18,9 @@ export default function AllRequest() {
     const [errPermissionsMsg, setPermissionErrMsg] = useState("");
     const [errOverTimesMsg, setOverTimeErrMsg] = useState("");
     const [errRefundsMsg, setRefundErrMsg] = useState("");
+
+
+
 
     //^ Fetch function - Permission data request
     async function fetchPermissionArchive() {
@@ -38,6 +42,8 @@ export default function AllRequest() {
             console.log(err);
         }
     };
+
+
 
 
     //^ Fetch function - overtime data request
@@ -62,6 +68,8 @@ export default function AllRequest() {
     };
 
 
+
+
     //^ Fetch function - Refund data request
     async function fetchRefundArchive() {
         try {
@@ -83,6 +91,10 @@ export default function AllRequest() {
         }
     };
 
+
+
+    
+    //^ UseEffect
     useEffect(() => {
         fetchPermissionArchive();
         fetchOverTimeArchive();;

@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react'
-import "./LoginPage.css"
-import logoImg from "../../assets/logo/png/logo-no-background.png"
-import Container from 'react-bootstrap/esm/Container'
+import React, { useContext, useEffect, useState } from 'react';
+import logoImg from "../../assets/logo/png/logo-no-background.png";
+import Container from 'react-bootstrap/esm/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
@@ -10,8 +9,13 @@ import { useNavigate } from 'react-router-dom';
 import { UserDataContext } from '../../context/UserDataContextProvider.jsx';
 import Alert from 'react-bootstrap/Alert';
 import { AuthContext } from '../../context/AuthContextProvider.jsx';
+import "./LoginPage.css";
+
+
+
 
 export default function LoginPage() {
+
     //^ Variables
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -20,6 +24,9 @@ export default function LoginPage() {
     const { token, setToken } = useContext(AuthContext);
     const navigate = useNavigate();
  
+
+
+
     //^ if you are logged-in => go to the home page
     useEffect(() => {
         if (token) {
@@ -28,11 +35,17 @@ export default function LoginPage() {
         }
     }, [token]);
 
+
+
+
     //^ show allert function
     function showAllert() {
         document.getElementById("login-alert").classList.remove("d-none");
         setTimeout(() => { document.getElementById("login-alert").classList.add("d-none"); }, 5000);
     };
+
+
+
 
     //^ hundle login function
     async function handleLogin() {
@@ -71,6 +84,9 @@ export default function LoginPage() {
             console.log(err);
         }
     };
+
+
+
 
     return (
         <div className=' bg-dark'>

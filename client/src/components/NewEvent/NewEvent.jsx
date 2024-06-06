@@ -7,6 +7,8 @@ import Container from "react-bootstrap/Container";
 
 
 export default function NewEvent() {
+
+    //^ Variables
     const [event, setEvent] = useState("");
     const [date, setDate] = useState("");
     const [start, setStart] = useState("");
@@ -16,9 +18,10 @@ export default function NewEvent() {
     const token = localStorage.getItem("token");
 
 
-    // submit function
-    const [validated, setValidated] = useState(false);
 
+
+    //^ Check that the form is competed (Submit Function)
+    const [validated, setValidated] = useState(false);
     const handleSubmit = async (event) => {
         event.preventDefault();
         const form = event.currentTarget;
@@ -31,7 +34,10 @@ export default function NewEvent() {
         setValidated(true);
     };
 
-    //^ fetch function
+
+
+
+    //^ Add new Event - fetch function
     async function addEventFetch() {
         const payload = {
             event_name: event,

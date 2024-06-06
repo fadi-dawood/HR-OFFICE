@@ -10,7 +10,7 @@ export default function EventManagment() {
         <div className='event-management'>
             <Container>
                 <Tabs defaultActiveKey="events-list" id="events-management-tabs" className="mb-3">
-                    <Tab eventKey="events-list" title="event List">
+                    <Tab eventKey="events-list" title="Event List">
                         <EventListTable />
                     </Tab>
                     <Tab eventKey="new-event" title="Add New event">

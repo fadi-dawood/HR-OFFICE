@@ -4,9 +4,14 @@ import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faX } from '@fortawesome/free-solid-svg-icons';
 
-export default function AllLeaveRequests({ allLeaveRequests, newPermissionRequests, errPermissionsMsg, setPermissionErrMsg }) {
 
+export default function AllLeaveRequests({ allLeaveRequests, newPermissionRequests, errPermissionsMsg, setPermissionErrMsg }) {
+    
+    //^ Variables
     const token = localStorage.getItem("token");
+
+
+
 
     //^ Fetch function - approve/reject a permission request
     async function answerPermission(permissionId, state) {
@@ -37,7 +42,6 @@ export default function AllLeaveRequests({ allLeaveRequests, newPermissionReques
     return (
         <div>
             {errPermissionsMsg && <p className='f-red'>{errPermissionsMsg}</p>}
-
 
             {allLeaveRequests.length > 0 &&
                 <>
@@ -80,8 +84,8 @@ export default function AllLeaveRequests({ allLeaveRequests, newPermissionReques
                         </tbody>
                     </Table>
                 </>
-
             }
+
 
             {allLeaveRequests.length === 0 &&
                 <h1 className="my-4 ms-2 f-poetsen f-green">There is no new requests!</h1>

@@ -11,12 +11,18 @@ import { Form } from "react-bootstrap";
 import "./PostListTable.css"
 
 export default function PostListTable() {
+
+    //^ Variables
     const [posts, setPosts] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [editingPostId, setEditingPostId] = useState(null);
     const [updatedPost, setUpdatedPost] = useState({ title: '', content: '' });
     const token = localStorage.getItem("token");
 
+
+
+
+    //^ Get All posts - Fetch Function
     async function getAllPosts() {
         try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/user/post`, {
@@ -37,6 +43,10 @@ export default function PostListTable() {
         }
     }
 
+
+
+
+    //^ Update a post - Fetch Function
     async function updatePost(postId) {
         try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/admin/post/${postId}`, {
@@ -58,6 +68,10 @@ export default function PostListTable() {
         }
     }
 
+
+
+
+    //^ Delete a post - Fetch Function
     async function deletePost(postId) {
         try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/admin/post/${postId}`, {
@@ -77,8 +91,16 @@ export default function PostListTable() {
         }
     }
 
+
+
+
+    //^ UseUffect
     useEffect(() => { getAllPosts(); }, []);
 
+
+
+
+    //^ Open Modal
     const handleEditClick = (post) => {
         setEditingPostId(post._id);
         setUpdatedPost({
@@ -88,15 +110,28 @@ export default function PostListTable() {
         setShowModal(true);
     };
 
+
+
+
+    //^ preparing the updated info in  
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setUpdatedPost({ ...updatedPost, [name]: value });
     };
 
+
+
+
+    //^ close Modal
     const handleCloseModal = () => {
         setShowModal(false);
         setEditingPostId(null);
     };
+
+
+
+
+
 
     return (
         <Container fluid="sm">
@@ -154,7 +189,7 @@ export default function PostListTable() {
                             <Form.Label  >Content</Form.Label>
                             <ReactQuill
                                 theme="snow"
-                                
+
                                 value={updatedPost.content}
                                 onChange={(value) => setUpdatedPost({ ...updatedPost, content: value })}
                             />

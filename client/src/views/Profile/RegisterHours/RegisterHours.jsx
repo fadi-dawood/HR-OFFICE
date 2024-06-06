@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import "./RegisterHours.css";
 import { Row, Col } from 'react-bootstrap';
 import ClientsListMenu from '../../../components/ClientsListMenu/ClientsListMenu.jsx';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import RegisteredHoursList from '../../../components/RegisterHoursList/RegisteredHoursList.jsx';
+import "./RegisterHours.css";
 
 
 export default function RegisterHours() {
+
   //^ Variables:
   const [date, satDate] = useState(new Date());
   const [clientId, setClientId] = useState("");
@@ -17,6 +18,9 @@ export default function RegisterHours() {
   const [errMsg, setErrMsg] = useState("");
   const token = localStorage.getItem("token");
   const [registeredHours, setRegisteredHours] = useState([]);
+
+
+
 
   //^------------------------------------------------------------------------------------------------------------------------------------^//
   //^ fetch - get all the hours of this day:
@@ -48,9 +52,11 @@ export default function RegisterHours() {
     }
   }
 
-
   // call the function when updating the date
   useEffect(() => { getAllHours() }, [date]);
+
+
+
 
   //^------------------------------------------------------------------------------------------------------------------------------------^//
   //^ fetch - register new hour:
@@ -89,6 +95,10 @@ export default function RegisterHours() {
     }
   }
 
+
+
+
+
   //^------------------------------------------------------------------------------------------------------------------------------------^//
   //^ Delete registered hour
   async function deleteHour(hourId) {
@@ -113,12 +123,20 @@ export default function RegisterHours() {
     }
   }
 
+
+
+
+
   //^------------------------------------------------------------------------------------------------------------------------------------^//
   //^ Control date
   function dateControl(selectedDate) {
     satDate(selectedDate);
     getAllHours();
   }
+
+
+
+
 
   //^------------------------------------------------------------------------------------------------------------------------------------^//
   //^ add a css class to weekend's days
@@ -132,6 +150,10 @@ export default function RegisterHours() {
   }
 
 
+
+
+  //^------------------------------------------------------------------------------------------------------------------------------------^//
+  //^ form validation
   const [validated, setValidated] = useState(false);
   const handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -142,6 +164,9 @@ export default function RegisterHours() {
 
     setValidated(true);
   };
+
+
+
 
   return (
     <div>

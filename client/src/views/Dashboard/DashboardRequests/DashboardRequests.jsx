@@ -7,7 +7,10 @@ import AllRefundRequests from '../../../components/AllRefundRequests/AllRefundRe
 
 
 export default function DashboardRequests() {
+    
+    //^ Variable
     const token = localStorage.getItem("token");
+
 
 
     //^ Fetch function - get all permission requests
@@ -39,6 +42,7 @@ export default function DashboardRequests() {
             }, 5000);
         }
     };
+
 
 
     //^ Fetch function - get all overtime requests
@@ -73,6 +77,8 @@ export default function DashboardRequests() {
     };
 
 
+
+
     //^ Fetch function - get all refund requests
     const [allRefundRequests, setAllRefundRequests] = useState([]);
     const [refundErrMsg, setRefundErrMsg] = useState("");
@@ -105,6 +111,8 @@ export default function DashboardRequests() {
     };
 
 
+
+    //^ UseEffect
     useEffect(() => {
         newPermissionRequests();
         newOvertimeRequests();
@@ -112,6 +120,8 @@ export default function DashboardRequests() {
     }, []);
 
 
+
+    
     return (
         <div>
             <Tabs

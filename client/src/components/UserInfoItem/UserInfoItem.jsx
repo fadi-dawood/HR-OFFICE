@@ -5,11 +5,17 @@ import { faPenToSquare, faTimes,faPaperPlane } from '@fortawesome/free-solid-svg
 import "./UserInfoItem.css"
 
 const UserInfoItem = (props) => {
-    //^ Variables
+
+    //^ Props
     const { serveKey, index, camp_name, value, isModifiable, token, setUserDataArr, userDataArr } = props;
+    
+
+
+    //^ Variables
     const [editIndex, setEditIndex] = useState(null);
     const [editValue, setEditValue] = useState("");
     const [alertMessage, setAlertMessage] = useState("");
+
 
     //^  open the edit box
     const handleEdit = () => {
@@ -18,6 +24,8 @@ const UserInfoItem = (props) => {
         setAlertMessage("");
     };
 
+
+
     //^ close the edit box
     const handleCancel = () => {
         setEditIndex(null);
@@ -25,7 +33,9 @@ const UserInfoItem = (props) => {
         setAlertMessage("");
     };
 
-    //^ Save the data function
+
+
+    //^ Save the data - Fetch function
     const handleSave = async () => {
         try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/user/modify`, {
@@ -51,6 +61,9 @@ const UserInfoItem = (props) => {
             setAlertMessage("Failed to update data. Please try again.");
         }
     };
+
+
+
 
     return (
         <ListGroup.Item variant="dark" className='bg-dark d-flex flex-column user-info-item'>

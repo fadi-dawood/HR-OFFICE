@@ -3,15 +3,20 @@ import Container from "react-bootstrap/Container";
 import Accordion from 'react-bootstrap/Accordion';
 import SinglePost from '../../components/SinglePost/SinglePost';
 import { Row, Col } from 'react-bootstrap';
-import "./Home.css"
+import "./Home.css";
 
 export default function Home() {
+
+    //^ Variables
     const token = localStorage.getItem("token");
     const [posts, setPosts] = useState([]);
     const [events, setEvents] = useState([]);
     const [admins, setAdmins] = useState([]);
 
-    // Fetch - get all posts:
+
+
+
+    //^ Fetch function - get all posts:
     async function getAllPosts() {
         try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/user/post`, {
@@ -31,7 +36,10 @@ export default function Home() {
         }
     };
 
-    // Fetch - get all events:
+
+
+
+    //^ Fetch function  - get all events:
     async function getAllEvents() {
         try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/user/event`, {
@@ -51,7 +59,10 @@ export default function Home() {
         }
     };
 
-    // Fetch - get all users:
+
+
+
+    //^ Fetch function  - get all users:
     async function getAllEmployee() {
         try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/user/admins`, {
@@ -71,6 +82,9 @@ export default function Home() {
         }
     };
 
+
+
+    //^ useEffect
     useEffect(() => {
         console.log(token);
         if (token) {
@@ -80,7 +94,10 @@ export default function Home() {
         }
     }, []);
 
-    // Group posts into three groups based on date
+
+
+
+    //^ Group posts into three groups based on date
     const now = new Date();
     const oneWeekAgo = new Date(now);
     oneWeekAgo.setDate(now.getDate() - 7);
@@ -103,6 +120,11 @@ export default function Home() {
         const [hours, minutes] = time.split(':');
         return `${hours}:${minutes}`;
     };
+
+
+
+
+
 
     return (
         <div className='home-page bg-dark py-5'>

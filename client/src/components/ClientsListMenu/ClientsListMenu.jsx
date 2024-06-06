@@ -2,9 +2,13 @@ import React, { useEffect, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 
 export default function ClientsListMenu({ setClientId, clientId }) {
+    
     //^variables:
     const [clients, setClients] = useState([]);
     const token = localStorage.getItem("token");
+
+
+
 
     //^ get all clients fetch
     async function getAllClients() {
@@ -27,8 +31,12 @@ export default function ClientsListMenu({ setClientId, clientId }) {
         }
     }
 
+
+    //^ useEffect
     useEffect(() => { getAllClients(); }, []);
 
+
+    
     return (
         <Form.Select
             onChange={(e) => setClientId(e.target.value)}

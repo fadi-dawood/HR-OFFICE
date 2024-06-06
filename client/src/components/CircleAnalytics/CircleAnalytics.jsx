@@ -3,7 +3,7 @@ import { Card } from 'react-bootstrap';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 
-
+//^ ArcElement
 // ChartJS : JavaScript library for creating charts
 // ArcElement : it is used to draw arc-shaped elements in charts
 // Tooltip : manages the display of tooltips
@@ -21,13 +21,16 @@ export default function CircleAnalytics({ dataArray = [] }) {
         acc[data.state]++;
         return acc;
     }, {});
-    
-    //! in other words:
+
+    //? in other words:
     // {
     //     Approved: 3,
     //     Requested: 2,
     //     Cancelled: 1
     //   }
+
+
+
 
     //^ the data of the Doughnut grafic
     const doughnutData = {
@@ -40,6 +43,8 @@ export default function CircleAnalytics({ dataArray = [] }) {
             },
         ],
     };
+
+
 
     
     return (

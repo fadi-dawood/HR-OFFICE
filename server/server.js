@@ -7,36 +7,38 @@ import userRoute from "./services/routes/user.route.js";
 import signRoute from "./services/routes/sign.route.js";
 import adminRoute from "./services/routes/admin.route.js";
 
-// caricare le variabili da .env
+
+
+// load variables from .env
 config();
 
-// creare un'applicazione express chiamata app (creazione server)
+// create an express application called app (server creation)
 const app = express();
 
-// Abilita CORS per tutte le origini
+// Enable CORS for all sources
 app.use(cors());
 
-// Abilita CORS solo per un set specifico di origini
+// Enable CORS only for a specific set of sources
 app.use(cors({
     origin: true
 }));
 
-// comunicazioni in json
+// communications in json
 app.use(express.json());
 
-// Importa routes:
+// Import routes:
 app.use("/user", authMiddleware, userRoute);
 app.use("/admin", authAdminMiddleware, adminRoute);
 app.use("/sign", signRoute);
 
 
-// Funzione per inizializzare il server
+// Function to initialize the server
 const inittserver = async () => {
     try {
-        // Aspettiamo di connetterci al database
+        // We are waiting to connect to the database
         await mongoose.connect(process.env.DBCONNECTION);
 
-        // Abilita server
+        // Enable server
         app.listen(process.env.PORT, () => {
             console.log(`Example app listening on port ${process.env.PORT}`)
         })
@@ -45,5 +47,5 @@ const inittserver = async () => {
     }
 }
 
-// Invochiamo la funzione per inizializzare il server
+// We call the function to initialize the server
 inittserver();

@@ -6,7 +6,12 @@ import { faCheck, faX } from '@fortawesome/free-solid-svg-icons';
 
 
 export default function AllOvertimeRequests({ allOvertimeRequests, newOvertimeRequests, setOvertimeErrMsg, overtimeErrMsg }) {
+    
+    //^ Variables
     const token = localStorage.getItem("token");
+
+
+
 
     //^ Fetch function - approve/reject a permission request
     async function answerOvertime(requestId, state) {

@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import "./NotFoundPage.css"
-import Container from 'react-bootstrap/esm/Container'
+import "./NotFoundPage.css";
+import Container from 'react-bootstrap/esm/Container';
 
 export default function NotFoundPage() {
 

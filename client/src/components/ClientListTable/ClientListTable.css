@@ -1,0 +1,12 @@
+.edit-client-modal label {
+    margin-top: 5px;
+}
+
+.edit-client-modal * {
+    color: black;
+}
+
+.edit-client-modal .btn-success,
+.edit-client-modal .btn-secondary {
+    color: white;
+}
