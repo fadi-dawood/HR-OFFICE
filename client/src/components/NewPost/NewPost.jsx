@@ -13,7 +13,8 @@ export default function NewPost() {
     //^ Variables
     const [title, setTitle] = useState("");
     const [text, setText] = useState("");
-    const [errMsg, setErrMsg] = useState("");
+    const [alertMsg, setAlertMsg] = useState("");
+    const [alertType, setAlertType] = useState("danger");
     const token = localStorage.getItem("token");
 
 
@@ -26,8 +27,9 @@ export default function NewPost() {
         const form = event.currentTarget;
         if (form.checkValidity() === false || !text) {
             event.stopPropagation();
-            setErrMsg("All fields are required");
-            setTimeout(() => setErrMsg(""), 5000);
+            setAlertType("danger");
+            setAlertMsg("All fields are required");
+            setTimeout(() => setAlertMsg(""), 5000);
         } else {
             sendNewPost();
         }
@@ -54,16 +56,21 @@ export default function NewPost() {
             });
 
             if (!response.ok) {
-                setErrMsg("Somthing went wrong, please try again later!");
+                setAlertType("danger");
+                setAlertMsg("Somthing went wrong, please try again later!");
                 setTimeout(() => {
-                    setErrMsg("");
+                    setAlertMsg("");
                 }, 5000);
                 throw new Error('Network response was not ok');
             } else {
+                setAlertType("success");
+                setAlertMsg("Request is sent successfully");
+                setTimeout(() => { setAlertMsg(""); }, 5000);
+                setValidated(false);
+
                 // Reset the form
                 setTitle("");
                 setText("");
-                setValidated(false);
             }
 
         } catch (error) {
@@ -100,9 +107,7 @@ export default function NewPost() {
                 </Button>
             </Form>
 
-            {errMsg && <Alert className="mt-3" variant="danger">
-                {errMsg}
-            </Alert>}
+            {alertMsg && <Alert className="my-3" variant={alertType}>{alertMsg}</Alert>}
         </Container >
     );
 };

@@ -18,7 +18,7 @@ const adminRoute = Router();
 // Post a new Employee profile
 adminRoute.post("/newemployee", async (req, res, next) => {
     try {
-        const chosenMail = req.body.mail;
+        const chosenMail = req.body.company_mail;
 
         const isEmailAviable = await Employee.findOne({
             company_mail: chosenMail

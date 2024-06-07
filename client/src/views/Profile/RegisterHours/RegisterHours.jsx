@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import "./RegisterHours.css";
 import { Row, Col } from 'react-bootstrap';
 import ClientsListMenu from '../../../components/ClientsListMenu/ClientsListMenu.jsx';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Alert from 'react-bootstrap/Alert';
 import RegisteredHoursList from '../../../components/RegisterHoursList/RegisteredHoursList.jsx';
-import "./RegisterHours.css";
 
 
 export default function RegisterHours() {
@@ -15,14 +16,16 @@ export default function RegisterHours() {
   const [date, satDate] = useState(new Date());
   const [clientId, setClientId] = useState("");
   const [hoursNum, setHoursNum] = useState();
-  const [errMsg, setErrMsg] = useState("");
+  const [alertMsg, setAlertMsg] = useState("");
+  const [alertType, setAlertType] = useState("danger");
   const token = localStorage.getItem("token");
   const [registeredHours, setRegisteredHours] = useState([]);
 
 
 
 
-  //^------------------------------------------------------------------------------------------------------------------------------------^//
+
+
   //^ fetch - get all the hours of this day:
   async function getAllHours() {
     // the date variable
@@ -41,24 +44,27 @@ export default function RegisterHours() {
       });
       if (response.ok) {
         const data = await response.json();
-        setErrMsg("");
+        setAlertMsg("");
         setRegisteredHours(data);
       } else {
-        setErrMsg("Sorry! Something went wrong, please try later!");
-        setTimeout(() => { setErrMsg("") }, 5000);
+        setAlertMsg("Sorry! Something went wrong, please try later!");
+        setTimeout(() => { setAlertMsg("") }, 5000);
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
     } catch (err) {
     }
   }
 
-  // call the function when updating the date
+
+
+
+  //^ call the function when updating the date
   useEffect(() => { getAllHours() }, [date]);
 
 
 
 
-  //^------------------------------------------------------------------------------------------------------------------------------------^//
+
   //^ fetch - register new hour:
   async function registerHours() {
     // the date variable
@@ -82,12 +88,15 @@ export default function RegisterHours() {
       });
 
       if (response.ok) {
+        setValidated(false);
+
         setClientId("");
         setHoursNum();
         getAllHours();
       } else {
-        setErrMsg("Sorry! Something went wrong, please try later!");
-        setTimeout(() => { setErrMsg("") }, 5000);
+        setAlertType("danger");
+        setAlertMsg("Sorry! Something went wrong, please try later!");
+        setTimeout(() => { setAlertMsg("") }, 5000);
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
     } catch (err) {
@@ -99,7 +108,6 @@ export default function RegisterHours() {
 
 
 
-  //^------------------------------------------------------------------------------------------------------------------------------------^//
   //^ Delete registered hour
   async function deleteHour(hourId) {
     try {
@@ -114,8 +122,9 @@ export default function RegisterHours() {
       if (response.ok) {
         getAllHours();
       } else {
-        setErrMsg("Sorry! Something went wrong, please try later!");
-        setTimeout(() => { setErrMsg("") }, 5000);
+        setAlertType("danger");
+        setAlertMsg("Sorry! Something went wrong, please try later!");
+        setTimeout(() => { setAlertMsg("") }, 5000);
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
     } catch (err) {
@@ -127,7 +136,6 @@ export default function RegisterHours() {
 
 
 
-  //^------------------------------------------------------------------------------------------------------------------------------------^//
   //^ Control date
   function dateControl(selectedDate) {
     satDate(selectedDate);
@@ -137,8 +145,6 @@ export default function RegisterHours() {
 
 
 
-
-  //^------------------------------------------------------------------------------------------------------------------------------------^//
   //^ add a css class to weekend's days
   function tileClassName({ date, view }) {
     if (view === 'month') {
@@ -151,15 +157,16 @@ export default function RegisterHours() {
 
 
 
-
-  //^------------------------------------------------------------------------------------------------------------------------------------^//
-  //^ form validation
+  //^ Validation form
   const [validated, setValidated] = useState(false);
   const handleSubmit = (event) => {
+    event.preventDefault();
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
+    }else{
+      registerHours();
     }
 
     setValidated(true);
@@ -168,11 +175,12 @@ export default function RegisterHours() {
 
 
 
+
   return (
     <div>
       <Row>
         <Col md={6}>
-          {errMsg && <p className='f-red'>{errMsg}</p>}
+        {alertMsg && <Alert variant={alertType}>{alertMsg}</Alert>}
 
           <RegisteredHoursList registeredHours={registeredHours} deleteHour={deleteHour}></RegisteredHoursList>
 
@@ -201,7 +209,7 @@ export default function RegisterHours() {
                 </Form.Control.Feedback>
               </Form.Group>
             </Row>
-            <Button onClick={registerHours} type="submit">Add hours</Button>
+            <Button type="submit">Add hours</Button>
           </Form>
         </Col>
 

@@ -81,7 +81,7 @@ export default function LoginPage() {
             }
             return;
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
     };
 

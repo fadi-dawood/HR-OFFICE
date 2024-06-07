@@ -5,6 +5,9 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Container from "react-bootstrap/Container";
 import { getCountryDataList } from 'countries-list';
+import Alert from 'react-bootstrap/Alert';
+
+
 
 export default function NewEmployee() {
 
@@ -45,13 +48,15 @@ export default function NewEmployee() {
     const [isAdmin, setIsAdmin] = useState(false);
 
 
+    const token = localStorage.getItem("token");
+    const [alertMsg, setAlertMsg] = useState("");
+    const [alertType, setAlertType] = useState("danger");
 
 
 
     //^-------------------------------------------------------------------------------------------------------------------------------------//
     // submit function
     const [validated, setValidated] = useState(false);
-    const token = localStorage.getItem("token");
     const handleSubmit = async (event) => {
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
@@ -104,6 +109,10 @@ export default function NewEmployee() {
             });
             if (response.ok) {
                 window.location.reload();
+            } else {
+                setAlertType("danger");
+                setAlertMsg("Somthing went wrong, please try later!");
+                setTimeout(() => { setAlertMsg(""); }, 5000);
             }
         } catch (error) {
             console.error('Si è verificato un errore:', error);
@@ -497,6 +506,7 @@ export default function NewEmployee() {
                             </Form.Group>
                         </Row>
                     </div>
+                    {alertMsg && <Alert variant={alertType}>{alertMsg}</Alert>}
 
 
                     <Button className="mt-5" type="submit">Add Employee</Button>

@@ -4,6 +4,9 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import { getCountryDataList } from 'countries-list';
+import Alert from 'react-bootstrap/Alert';
+
+
 
 export default function NewClient() {
 
@@ -13,12 +16,12 @@ export default function NewClient() {
   const [phone, setPhone] = useState("");
   const [country, setCountry] = useState("");
   const countryList = getCountryDataList();
+  const [alertMsg, setAlertMsg] = useState("");
+  const [alertType, setAlertType] = useState("danger");
 
 
 
-
-
-    //^ Check that the form is competed (Submit Function)
+  //^ Check that the form is competed (Submit Function)
   const [validated, setValidated] = useState(false);
   const token = localStorage.getItem("token");
   const handleSubmit = async (event) => {
@@ -46,7 +49,6 @@ export default function NewClient() {
     }
 
     try {
-      console.log(process.env.REACT_APP_API_URL);
       const response = await fetch(`${process.env.REACT_APP_API_URL}/admin/client`, {
         method: 'POST',
         headers: {
@@ -56,7 +58,19 @@ export default function NewClient() {
         body: JSON.stringify(payload)
       });
       if (response.ok) {
-        window.location.reload();
+        setAlertType("success");
+        setAlertMsg("Client is added successfully");
+        setTimeout(() => { setAlertMsg(""); }, 5000);
+        setValidated(false);
+
+        setClient("");
+        setEmail("");
+        setPhone("");
+        setCountry("");
+      }else{
+        setAlertType("danger");
+        setAlertMsg("Somthing went wrong, please try later!");
+        setTimeout(() => { setAlertMsg(""); }, 5000)
       }
     } catch (error) {
       console.error('Si è verificato un errore:', error);
@@ -123,6 +137,7 @@ export default function NewClient() {
         </Row>
         <Button className="mt-5" type="submit">Add Client</Button>
       </Form>
+      {alertMsg && <Alert className='my-3' variant={alertType}>{alertMsg}</Alert>}
     </div>
   )
 }

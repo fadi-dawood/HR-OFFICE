@@ -11,10 +11,13 @@ export default function RefundRequest() {
     //^ form validation
     const [validated, setValidated] = useState(false);
     const handleSubmit = (event) => {
+        event.preventDefault();
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
+        } else {
+            askRufund();
         }
         setValidated(true);
     };
@@ -30,6 +33,7 @@ export default function RefundRequest() {
     const [refundAmount, setRefundAmount] = useState("");
     const [note, setNote] = useState("");
     const [alertMsg, setAlertMsg] = useState("");
+    const [alertType, setAlertType] = useState("danger");
     const token = localStorage.getItem("token");
 
 
@@ -70,14 +74,19 @@ export default function RefundRequest() {
                 body: JSON.stringify(payload)
             });
             if (response.ok) {
+                setAlertType("success");
+                setAlertMsg("Request is sent successfully");
+                setTimeout(() => { setAlertMsg(""); }, 5000);
+                setValidated(false);
+
                 setRequestType("");
                 setExpenseDate("");
                 setPaymentType("");
                 setKmNumber("");
                 setNote("");
                 setRefundAmount("");
-                setAlertMsg("");
             } else {
+                setAlertType("danger");
                 setAlertMsg("Somthing went wrong, please try later!");
                 setTimeout(() => { setAlertMsg(""); }, 5000)
             }
@@ -201,8 +210,8 @@ export default function RefundRequest() {
                         </Form.Control.Feedback>
                     </Form.Group>
                 </Row>
-                <Button onClick={askRufund} className="my-5" type="button">Send request</Button>
-                {alertMsg && <Alert variant="danger">{alertMsg}</Alert>}
+                <Button className="my-5" type="submit">Send request</Button>
+                {alertMsg && <Alert variant={alertType}>{alertMsg}</Alert>}
             </Form>
         </div>
     );

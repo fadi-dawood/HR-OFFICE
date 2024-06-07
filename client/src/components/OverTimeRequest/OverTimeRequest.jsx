@@ -9,13 +9,18 @@ export default function OverTimeRequest() {
     //^ Validation form
     const [validated, setValidated] = useState(false);
     const handleSubmit = (event) => {
+        event.preventDefault();
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
+        } else {
+            askOverTime();
         }
         setValidated(true);
     };
+
+
 
     //^ variables
     const [date, setDate] = useState("");
@@ -23,6 +28,9 @@ export default function OverTimeRequest() {
     const [note, setNote] = useState("");
     const [alertMsg, setAlertMsg] = useState("");
     const token = localStorage.getItem("token");
+    const [alertType, setAlertType] = useState("danger");
+
+
 
     //^ Overtime request- call function
     async function askOverTime() {
@@ -41,11 +49,16 @@ export default function OverTimeRequest() {
                 body: JSON.stringify(payload)
             });
             if (response.ok) {
+                setAlertType("success");
+                setAlertMsg("Request is sent successfully");
+                setTimeout(() => { setAlertMsg(""); }, 5000);
+                setValidated(false);
+
                 setDate("");
                 setHourNumber("");
                 setNote("");
-                setAlertMsg("");
             } else {
+                setAlertType("danger");
                 setAlertMsg("Somthing went wrong, please try later!");
                 setTimeout(() => { setAlertMsg(""); }, 5000)
             }
@@ -54,6 +67,7 @@ export default function OverTimeRequest() {
         };
 
     }
+
 
 
     return (
@@ -104,8 +118,8 @@ export default function OverTimeRequest() {
                         />
                     </Form.Group>
                 </Row>
-                <Button onClick={askOverTime} className="my-5" type="button">Send request</Button>
-                {alertMsg && <Alert variant="danger">{alertMsg}</Alert>}
+                <Button className="my-5" type="submit">Send request</Button>
+                {alertMsg && <Alert variant={alertType}>{alertMsg}</Alert>}
             </Form>
         </div>
     )

@@ -4,6 +4,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Container from "react-bootstrap/Container";
+import Alert from 'react-bootstrap/Alert';
 
 
 export default function NewEvent() {
@@ -16,7 +17,8 @@ export default function NewEvent() {
     const [organizer, setOrganizer] = useState("");
     const [summary, setSummary] = useState("");
     const token = localStorage.getItem("token");
-
+    const [alertMsg, setAlertMsg] = useState("");
+    const [alertType, setAlertType] = useState("danger");
 
 
 
@@ -49,7 +51,6 @@ export default function NewEvent() {
         }
 
         try {
-            console.log(process.env.REACT_APP_API_URL);
             const response = await fetch(`${process.env.REACT_APP_API_URL}/admin/event`, {
                 method: 'POST',
                 headers: {
@@ -59,6 +60,11 @@ export default function NewEvent() {
                 body: JSON.stringify(payload)
             });
             if (response.ok) {
+                setAlertType("success");
+                setAlertMsg("Request is sent successfully");
+                setTimeout(() => { setAlertMsg(""); }, 5000);
+                setValidated(false);
+
                 setEvent("");
                 setDate("");
                 setStart("");
@@ -66,6 +72,13 @@ export default function NewEvent() {
                 setOrganizer("");
                 setSummary("");
                 setValidated(false);
+            } else {
+                setAlertType("danger");
+                setAlertMsg("Somthing went wrong, please try again later!");
+                setTimeout(() => {
+                    setAlertMsg("");
+                }, 5000);
+                throw new Error('Network response was not ok');
             }
         } catch (error) {
             console.error('Si è verificato un errore:', error);
@@ -154,6 +167,9 @@ export default function NewEvent() {
                     </Row>
                     <Button className="mt-5" type="submit">Add Client</Button>
                 </Form>
+
+                {alertMsg && <Alert className="my-3" variant={alertType}>{alertMsg}</Alert>}
+
             </Container>
         </div>
     )

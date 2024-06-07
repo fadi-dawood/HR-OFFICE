@@ -39,7 +39,7 @@ export default function AllRequest() {
                 setPermissionErrMsg("Something went wrong, please try later ..!")
             };
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
     };
 
@@ -63,7 +63,7 @@ export default function AllRequest() {
                 setOverTimeErrMsg("Something went wrong, please try later ..!")
             };
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
     };
 
@@ -87,7 +87,7 @@ export default function AllRequest() {
                 setRefundErrMsg("Something went wrong, please try later ..!")
             };
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
     };
 

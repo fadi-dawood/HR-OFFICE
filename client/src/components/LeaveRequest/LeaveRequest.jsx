@@ -10,10 +10,13 @@ export default function LeaveRequest() {
     //^ Validation form
     const [validated, setValidated] = useState(false);
     const handleSubmit = (event) => {
+        event.preventDefault();
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
+        }else{
+            askPermission() ;
         }
         setValidated(true);
     };
@@ -28,6 +31,7 @@ export default function LeaveRequest() {
     const [endHour, setEndHour] = useState("");
     const [note, setNote] = useState("");
     const [alertMsg, setAlertMsg] = useState("");
+    const [alertType, setAlertType] = useState("danger");
     const token = localStorage.getItem("token");
 
 
@@ -42,7 +46,6 @@ export default function LeaveRequest() {
             endHour: endHour,
             note: note
         }
-        console.log(payload)
         try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/user/permission`, {
                 method: "POST",
@@ -53,6 +56,11 @@ export default function LeaveRequest() {
                 body: JSON.stringify(payload)
             });
             if (response.ok) {
+                setAlertType("success");
+                setAlertMsg("Request is sent successfully");
+                setTimeout(() => { setAlertMsg(""); }, 5000);
+                setValidated(false);
+
                 setEndDate("");
                 setEndHour("");
                 setNote("");
@@ -60,8 +68,11 @@ export default function LeaveRequest() {
                 setStartHour("");
                 setType("");
             } else {
+                setAlertType("danger");
                 setAlertMsg("Somthing went wrong, please try later!");
-                setTimeout(() => { setAlertMsg(""); }, 5000)
+                setTimeout(() => { setAlertMsg(""); }, 5000);
+                
+                throw new Error('Network response was not ok');
             }
         } catch (err) {
             console.error(err);
@@ -71,7 +82,7 @@ export default function LeaveRequest() {
 
 
 
-    
+
     return (
         <div>
             <h1 className='mb-4'>New leave request:</h1>
@@ -117,7 +128,7 @@ export default function LeaveRequest() {
                     <Form.Group as={Col} md="4">
                         <Form.Label>Start at</Form.Label>
                         <Form.Control
-                            onChange={(e) => { setStartHour(e.target.value)}}
+                            onChange={(e) => { setStartHour(e.target.value) }}
                             value={startHour}
                             data-bs-theme="dark"
                             required
@@ -168,8 +179,8 @@ export default function LeaveRequest() {
                         />
                     </Form.Group>
                 </Row>
-                <Button onClick={askPermission} className="my-5" type="submit">Send request</Button>
-                {alertMsg && <Alert variant="danger">{alertMsg}</Alert>}
+                <Button className="my-5" type="submit">Send request</Button>
+                {alertMsg && <Alert variant={alertType}>{alertMsg}</Alert>}
             </Form>
         </div>
     )
